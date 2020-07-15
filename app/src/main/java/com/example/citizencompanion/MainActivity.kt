@@ -80,7 +80,8 @@ open class MainActivity : AppCompatActivity() {
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, url, logindetails,
             Response.Listener { response ->
-                textView.text = "Response: %s".format(response.toString())
+                textView.text = "Response Login: %s".format(response.toString())
+               // ws success
             },
             Response.ErrorListener { error ->
                 Toast.makeText(applicationContext, "Some error occured", Toast.LENGTH_LONG).show()
