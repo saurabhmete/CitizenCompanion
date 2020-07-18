@@ -16,9 +16,11 @@ open class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //to populate types to the dropdown
-        val spinner:Spinner = findViewById(R.id.type)
-        val username = findViewById<EditText>(R.id.username)
-        val password = findViewById<EditText>(R.id.password)
+        var spinner:Spinner = findViewById(R.id.type)
+        val xusername = findViewById<EditText>(R.id.username)
+        val username = xusername.text.toString()
+        val xpassword = findViewById<EditText>(R.id.password)
+        val password = xpassword.text.toString()
         val login = findViewById<Button>(R.id.login)
 
 
@@ -56,9 +58,9 @@ open class MainActivity : AppCompatActivity() {
                 // An item was selected. You can retrieve the selected item using
                 var positon=  parent.getItemAtPosition(pos)
                 if (positon.equals(0)){
-                    var type = "police"
-                }else if(positon.equals(1)){
                     var type = "citizen"
+                }else if(positon.equals(1)){
+                    var type = "police"
                 }
             }
 
