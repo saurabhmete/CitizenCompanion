@@ -84,6 +84,13 @@ open class MainActivity : AppCompatActivity() {
             Response.Listener { response ->
                 textView.text = "Response Login: %s".format(response.toString())
                // ws success
+                if(type.equals("citizen")){
+                    FirActivity()
+                }else{
+                    getFirpolicewise()
+                }
+
+
             },
             Response.ErrorListener { error ->
                 Toast.makeText(applicationContext, "Some error occured", Toast.LENGTH_LONG).show()
@@ -92,6 +99,30 @@ open class MainActivity : AppCompatActivity() {
         )
 
 
+    }
+
+    private fun getFirpolicewise() {
+        val policewise =  JSONObject()
+        policewise.put("type",type)
+        policewise.put("username",username)
+
+        val url = "ip/policewisefir"
+
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.POST, url, policewise,
+            Response.Listener { response ->
+                textView.text = "Response policewisefir: %s".format(response.toString())
+                // ws success
+
+                PoliceMainActivity()
+
+
+            },
+            Response.ErrorListener { error ->
+                Toast.makeText(applicationContext, "Some error occured", Toast.LENGTH_LONG).show()
+
+            }
+        )
     }
 
 

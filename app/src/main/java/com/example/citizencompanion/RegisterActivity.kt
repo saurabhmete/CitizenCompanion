@@ -2,6 +2,8 @@ package com.example.citizencompanion
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,11 +17,13 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
+import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
 
     final var  latitude = "null"
     final var longitude = "null"
+    final var pincode = "null"
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +47,7 @@ class RegisterActivity : AppCompatActivity() {
         val phone = xphone.text.toString()
 
 
+
         register.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
 
@@ -53,6 +58,7 @@ class RegisterActivity : AppCompatActivity() {
                 registerdetails.put("gender",gender)
                 registerdetails.put("latitude",latitude)
                 registerdetails.put("longitude",longitude)
+                registerdetails.put("pincode",pincode)
 
 
 
@@ -71,7 +77,7 @@ class RegisterActivity : AppCompatActivity() {
                     Response.Listener { response ->
                         textView.text = "Response Register: %s".format(response.toString())
                         // ws success
-
+                        MainActivity()
 
                     },
                     Response.ErrorListener { error ->
@@ -115,6 +121,20 @@ class RegisterActivity : AppCompatActivity() {
 
                 }
 //location ends here
+
+
+        //reverse geocoding logic starts here
+
+
+        val addresses: List<Address>
+        val lati = latitude.toDouble()
+        val long = longitude.toDouble()
+        val  geocoder = Geocoder(this, Locale.ENGLISH)
+
+        addresses = geocoder.getFromLocation(lati,long,1)
+
+         pincode = addresses[0].postalCode
+        // reverse geocoding ends here
 
         // type spinner logic starts here
 
