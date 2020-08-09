@@ -114,7 +114,7 @@ open class MainActivity : AppCompatActivity() {
                 textView.text = "Response policewisefir: %s".format(response.toString())
                 // ws success
 
-                PoliceMainActivity()
+//                PoliceMainActivity()
 
 
             },

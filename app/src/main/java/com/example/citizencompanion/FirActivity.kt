@@ -133,6 +133,7 @@ class FirActivity : AppCompatActivity() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             // Apply the adapter to the spinner
             type_fir.adapter = adapter
+            type_fir.prompt = "Type of incident"
         }
 
         class SpinnerActivity : MainActivity(), AdapterView.OnItemSelectedListener {

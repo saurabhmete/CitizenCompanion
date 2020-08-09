@@ -61,8 +61,8 @@
                 android:id="@+id/type_fir"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:prompt="Type of incident"
                 android:spinnerMode="dialog" />
+<!--                android:prompt="Type of incident"-->
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
