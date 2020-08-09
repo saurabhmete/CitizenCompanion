@@ -1,0 +1,10 @@
+*.iml
+.gradle/
+.DS_Store
+build/
+.idea/
+*.apk
+.externalNativeBuild
+gradle.properties
+local.properties
+/.nb-gradle/
