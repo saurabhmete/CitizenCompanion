@@ -1,46 +1,97 @@
 package com.example.citizencompanion
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
 
+
 open class MainActivity : AppCompatActivity() {
+    var type = "null"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+         lateinit var auth: FirebaseAuth
+// ...
+// Initialize Firebase Auth
+        auth = Firebase.auth
+
 
         //to populate types to the dropdown
         var spinner:Spinner = findViewById(R.id.type)
-        val xusername = findViewById<EditText>(R.id.username)
-        val username = xusername.text.toString()
-        val xpassword = findViewById<EditText>(R.id.password)
-        val password = xpassword.text.toString()
-        val login = findViewById<Button>(R.id.login)
+        //dropdown end
 
+        val login = findViewById<Button>(R.id.login)
+        val register = findViewById<Button>(R.id.register)
 
 
         login.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                val logindetails =  JSONObject()
-                logindetails.put("type",type)
-                logindetails.put("username",username)
-                logindetails.put("password",password)
+                var xusername = findViewById<EditText>(R.id.username)
+                var email = xusername.text.toString()
+                var xpassword = findViewById<EditText>(R.id.password)
+                var password = xpassword.text.toString()
+
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this@MainActivity) { task ->
+                        if (task.isSuccessful) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("TAG", "signInWithEmail:success")
+                            val user = auth.currentUser
+                            val intent = Intent(this@MainActivity, FirActivity::class.java)
+                            val uid = user?.uid.toString()
+                            intent.putExtra("uid", uid)
+
+                            // start your next activity
+                            startActivity(intent)
 
 
-                loginws(logindetails)
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("TAG", "signInWithEmail:failure", task.exception)
+                            Toast.makeText(baseContext, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show()
+
+                            // ...
+                        }
+
+                        // ...
+                    }
+
 
 
 
 
             }
-            
+
         })
+
+
+        register.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+                val intent = Intent(this@MainActivity, RegisterActivity::class.java)
+               /* intent.putExtra("key", value)*/
+                // start your next activity
+                startActivity(intent)
+
+
+
+
+            }
+
+        })
+
+
         ArrayAdapter.createFromResource(
             this,
             R.array.type,
@@ -58,14 +109,14 @@ open class MainActivity : AppCompatActivity() {
                 // An item was selected. You can retrieve the selected item using
                 var positon=  parent.getItemAtPosition(pos)
                 if (positon.equals(0)){
-                    var type = "citizen"
+                    type = "citizen"
                 }else if(positon.equals(1)){
-                    var type = "police"
+                   type = "police"
                 }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                var type = null
+               type = "null"
             }
         }
 
@@ -74,32 +125,7 @@ open class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun loginws(logindetails: JSONObject) {
 
-
-        val url = "ip/login"
-
-        val jsonObjectRequest = JsonObjectRequest(
-            Request.Method.POST, url, logindetails,
-            Response.Listener { response ->
-                textView.text = "Response Login: %s".format(response.toString())
-               // ws success
-                if(type.equals("citizen")){
-                    FirActivity()
-                }else{
-                    getFirpolicewise()
-                }
-
-
-            },
-            Response.ErrorListener { error ->
-                Toast.makeText(applicationContext, "Some error occured", Toast.LENGTH_LONG).show()
-
-            }
-        )
-
-
-    }
 
     private fun getFirpolicewise() {
         val policewise =  JSONObject()

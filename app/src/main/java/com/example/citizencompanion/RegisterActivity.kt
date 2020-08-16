@@ -1,90 +1,114 @@
 package com.example.citizencompanion
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.app.ActivityCompat
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
 import java.util.*
 
-class RegisterActivity : AppCompatActivity() {
+open class RegisterActivity : AppCompatActivity() {
 
-    final var  latitude = "null"
-    final var longitude = "null"
-    final var pincode = "null"
-
+     var  latitude = "null"
+     var longitude = "null"
+     var pincode = "null"
+    var type="null"
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    override fun onCreate(savedInstanceState: Bundle?) {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        lateinit var auth: FirebaseAuth
+        auth = Firebase.auth
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        val spinner: Spinner = findViewById(R.id.typeregister)
-        val xname = findViewById<EditText>(R.id.name)
-        val xphone = findViewById<EditText>(R.id.phone)
-
-        val radiogender = findViewById<RadioGroup>(R.id.radiogender)
-        val selectedgender = radiogender.checkedRadioButtonId
-        val xradiogender = findViewById<RadioButton>(selectedgender)
-
-        val register = findViewById<Button>(R.id.register)
-
-        val gender = xradiogender.text.toString()
-        val name = xname.text.toString()
-        val phone = xphone.text.toString()
+        //to populate types to the dropdown
+        var spinner:Spinner = findViewById(R.id.typeregister)
+        //dropdown end
+        var register = findViewById<Button>(R.id.submitbutton)
 
 
 
         register.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
 
-                val registerdetails =  JSONObject()
-                registerdetails.put("type",type)
-                registerdetails.put("name",name)
-                registerdetails.put("phone",phone)
-                registerdetails.put("gender",gender)
-                registerdetails.put("latitude",latitude)
-                registerdetails.put("longitude",longitude)
-                registerdetails.put("pincode",pincode)
-
-
-
-                registerws(registerdetails)
-
-
-
-
+                var xemailid = findViewById<EditText>(R.id.emailid)
+                var xpassword = findViewById<EditText>(R.id.password)
+                var emailid = xemailid.text.toString().trim()
+                var password = xpassword.text.toString()
+                authcreate(emailid,password)
             }
 
-            private fun registerws(registerdetails: JSONObject) {
-                val url = "ip/register"
+            private fun authcreate(emailid: String, password: String) {
 
-                val jsonObjectRequest = JsonObjectRequest(
-                    Request.Method.POST, url, registerdetails,
-                    Response.Listener { response ->
-                        textView.text = "Response Register: %s".format(response.toString())
-                        // ws success
-                        MainActivity()
+                // [START create_user_with_email]
+                auth.createUserWithEmailAndPassword(emailid, password)
+                    .addOnCompleteListener(this@RegisterActivity) { task ->
+                        val any = if (task.isSuccessful) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("TAG", "createUserWithEmail:success")
+                            val user = auth.currentUser
 
-                    },
-                    Response.ErrorListener { error ->
-                        Toast.makeText(applicationContext, "Some error occured", Toast.LENGTH_LONG).show()
+
+                            var radiogender = findViewById<RadioGroup>(R.id.radiogender)
+                            var selectedgender = radiogender.checkedRadioButtonId
+                            var xradiogender = findViewById<RadioButton>(selectedgender)
+                            var gender = xradiogender.text.toString()
+                            var xname = findViewById<EditText>(R.id.name)
+                            var xphone = findViewById<EditText>(R.id.phone)
+                            var name = xname.text.toString()
+                            var phone = xphone.text.toString()
+
+
+                            lateinit var database: DatabaseReference
+                            database = Firebase.database.reference
+                            val uid = user?.uid.toString()
+
+                            database.child("citizens").child(uid).child("Name").setValue(name)
+                            database.child("citizens").child(uid).child("phone").setValue(phone)
+                            database.child("citizens").child(uid).child("gender").setValue(gender)
+                            database.child("citizens").child(uid).child("latitude").setValue(latitude)
+                            database.child("citizens").child(uid).child("longitude").setValue(longitude)
+                            database.child("citizens").child(uid).child("pincode").setValue(pincode)
+                            database.child("citizens").child(uid).child("type").setValue(type)
+                            val intent = Intent(this@RegisterActivity, FirActivity::class.java)
+                             intent.putExtra("uid", uid)
+                            // start your next activity
+                            startActivity(intent)
+
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("TAG", "createUserWithEmail:failure", task.exception)
+                            Toast.makeText(
+                                baseContext, "Authentication failed. Please check details again.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                        }
+
 
                     }
-                )
+                // [END create_user_with_email]
+
+
+
             }
 
         })
@@ -139,8 +163,8 @@ class RegisterActivity : AppCompatActivity() {
         // type spinner logic starts here
 
         ArrayAdapter.createFromResource(
-            this,
-            R.array.type,
+            this@RegisterActivity,
+            R.array.typeregister,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             // Specify the layout to use when the list of choices appears
@@ -149,24 +173,24 @@ class RegisterActivity : AppCompatActivity() {
             spinner.adapter = adapter
         }
 
-        class SpinnerActivity : MainActivity(), AdapterView.OnItemSelectedListener {
+        class SpinnerActivity : RegisterActivity(), AdapterView.OnItemSelectedListener {
 
             override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
                 // An item was selected. You can retrieve the selected item using
                 var positon=  parent.getItemAtPosition(pos)
                 if (positon.equals(0)){
-                    var type = "police"
+                   type = "police"
                 }else if(positon.equals(1)){
-                    var type = "citizen"
+                   type = "citizen"
                 }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                var type = null
+                type = "null"
             }
         }
 
-        // type spinner logic starts here
+       // spinner logic ends here
 
     }
 

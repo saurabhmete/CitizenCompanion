@@ -10,22 +10,23 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.android.synthetic.main.activity_main.*
-import org.json.JSONObject
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+
 import java.util.*
 
 
 class FirActivity : AppCompatActivity() {
 
-    final var  latitudefir = "null"
-    final var longitudefir = "null"
-    final var pincodefir = " null"
+    var  latitudefir = "null"
+    var longitudefir = "null"
+    var pincodefir = " null"
+
+    var type = "null"
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
 
@@ -34,58 +35,52 @@ class FirActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fir)
 
-        val type_fir: Spinner = findViewById(R.id.type_fir)
-        val fullname: TextInputEditText = findViewById(R.id.fullname_fir)
-        val place: TextInputEditText = findViewById(R.id.place_fir)
-        val date: EditText = findViewById(R.id.date_fir)
-        val time: EditText = findViewById(R.id.time_fir)
-        val description = findViewById<EditText>(R.id.description_fir)
-        val witness = findViewById<EditText>(R.id.witness_fir)
-        val submitfir = findViewById<Button>(R.id.submitfir_btn)
+        var type_fir: Spinner = findViewById(R.id.type_fir)
+        var submitfir = findViewById<Button>(R.id.submitfir_btn)
 
 
         submitfir.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
 
-                val submitfir = JSONObject()
-                submitfir.put("type_fir", type_fir)
-                submitfir.put("fullname", fullname)
-                submitfir.put("place", place)
-                submitfir.put("date", date)
-                submitfir.put("time", time)
-                submitfir.put("description", description)
-                submitfir.put("witness", witness)
-                submitfir.put("latitudefir", latitudefir)
-                submitfir.put("longitudefir", longitudefir)
-                submitfir.put("pincodefir", pincodefir)
+
+
+                var xfullname: TextInputEditText = findViewById(R.id.fullname_fir)
+                var fullname = xfullname.text.toString()
+                var xplace: TextInputEditText = findViewById(R.id.place_fir)
+                var place = xplace.text.toString()
+                var xdate: EditText = findViewById(R.id.date_fir)
+                var date = xdate.text.toString()
+                var xtime: EditText = findViewById(R.id.time_fir)
+                var time = xtime.text.toString()
+                var xdescription = findViewById<EditText>(R.id.description_fir)
+                var description = xdescription.text.toString()
+                var xwitness = findViewById<EditText>(R.id.witness_fir)
+                var witness = xwitness.text.toString()
 
 
 
-                submitfirws(submitfir)
-
-
-            }
-
-            private fun submitfirws(submitfir: JSONObject) {
-
-                val url = "ip/submitfir"
-
-                val jsonObjectRequest = JsonObjectRequest(
-                    Request.Method.POST, url, submitfir,
-                    Response.Listener { response ->
-                        textView.text = "Response submitfir: %s".format(response.toString())
-                        // ws success
-
-
-                    },
-                    Response.ErrorListener { error ->
-                        Toast.makeText(applicationContext, "Some error occured", Toast.LENGTH_LONG)
-                            .show()
-
-                    }
-                )
+                //getting uid
+                /*var bundle :Bundle ?=intent.extras
+                var message = bundle!!.getString("uid")*/
+                var uidfir: String = intent.getStringExtra("uid")
+                lateinit var database: DatabaseReference
+                database = Firebase.database.reference
+                database.child("firs").child(uidfir).child("type_fir").setValue(type)
+                database.child("firs").child(uidfir).child("fullname").setValue(fullname)
+                database.child("firs").child(uidfir).child("place").setValue(place)
+                database.child("firs").child(uidfir).child("date").setValue(date)
+                database.child("firs").child(uidfir).child("time").setValue(time)
+                database.child("firs").child(uidfir).child("description").setValue(description)
+                database.child("firs").child(uidfir).child("witness").setValue(witness)
+                database.child("firs").child(uidfir).child("latitudefir").setValue(latitudefir)
+                database.child("firs").child(uidfir).child("longitudefir").setValue(longitudefir)
+                database.child("firs").child(uidfir).child("pincodefir").setValue(pincodefir)
+                Toast.makeText(baseContext, "Filed Successfully",
+                    Toast.LENGTH_SHORT).show()
 
             }
+
+
 
         })
 
@@ -142,16 +137,16 @@ class FirActivity : AppCompatActivity() {
                 // An item was selected. You can retrieve the selected item using
                 var positon=  parent.getItemAtPosition(pos)
                 if (positon.equals(0)){
-                    var type = "murder"
+                    type = "murder"
                 }else if(positon.equals(1)){
-                    var type = "rape"
+                     type = "rape"
                 }else if(positon.equals(2)){
-                    var type = "theft"
+                     type = "theft"
                 }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                var type = null
+               type = "null"
             }
 
 
