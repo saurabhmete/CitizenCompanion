@@ -1,11 +1,11 @@
 package com.example.citizencompanion
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -21,14 +21,12 @@ open class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-         lateinit var auth: FirebaseAuth
-// ...
-// Initialize Firebase Auth
-        auth = Firebase.auth
 
+        // Initialize Firebase Auth
+        val auth: FirebaseAuth = Firebase.auth
 
         //to populate types to the dropdown
-        var spinner:Spinner = findViewById(R.id.type)
+        val spinner: Spinner = findViewById(R.id.type)
         //dropdown end
 
         val login = findViewById<Button>(R.id.login)
@@ -37,10 +35,10 @@ open class MainActivity : AppCompatActivity() {
 
         login.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                var xusername = findViewById<EditText>(R.id.username)
-                var email = xusername.text.toString()
-                var xpassword = findViewById<EditText>(R.id.password)
-                var password = xpassword.text.toString()
+                val xusername = findViewById<EditText>(R.id.username)
+                val email = xusername.text.toString()
+                val xpassword = findViewById<EditText>(R.id.password)
+                val password = xpassword.text.toString()
 
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this@MainActivity) { task ->
@@ -59,17 +57,16 @@ open class MainActivity : AppCompatActivity() {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("TAG", "signInWithEmail:failure", task.exception)
-                            Toast.makeText(baseContext, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                baseContext, "Authentication failed.",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
                             // ...
                         }
 
                         // ...
                     }
-
-
-
 
 
             }
@@ -150,6 +147,4 @@ open class MainActivity : AppCompatActivity() {
             }
         )
     }
-
-
 }

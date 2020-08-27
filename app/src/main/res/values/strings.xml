@@ -14,7 +14,7 @@
         <item>Police</item>
     </string-array>
 
-    <string-array name="typeregister">
+    <string-array name="typeRegister">
         <item>Citizen</item>
         <item>Police</item>
     </string-array>
@@ -27,4 +27,8 @@
 
     <string name="radio_male">Male</string>
     <string name="radio_female">Female</string>
+    <string name="title_activity_dashboard">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
