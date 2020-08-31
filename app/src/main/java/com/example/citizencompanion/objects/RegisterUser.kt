@@ -7,5 +7,6 @@ class RegisterUser(
     val name: String,
     val phone: String,
     val gender: String,
-    var userType: String
+    var userType: String,
+    val aadhar: String
 )
