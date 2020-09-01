@@ -16,4 +16,7 @@ object CommonUtils {
             1
         )
     }
+    val firdata:HashMap<String,String> = HashMap<String,String>()
+
+
 }

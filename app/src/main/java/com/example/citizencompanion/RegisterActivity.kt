@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.citizencompanion.Utils.CommonUtils
 import com.example.citizencompanion.Utils.FileUtils
+import com.example.citizencompanion.objects.FIRObject
 import com.example.citizencompanion.objects.RegisterUser
 import com.example.citizencompanion.services.UserService
 import com.google.android.gms.location.*
@@ -87,7 +88,7 @@ open class RegisterActivity : AppCompatActivity() {
                 val xfilename = findViewById<TextView>(R.id.filename)
 
 
-                val radioGender = findViewById<RadioGroup>(R.id.radiogender)
+                val radioGender = findViewById<RadioGroup>(R.id.radiogenderfir)
                 val selectedGender = radioGender.checkedRadioButtonId
                 val xRadioGender = findViewById<RadioButton>(selectedGender)
 
@@ -203,6 +204,7 @@ open class RegisterActivity : AppCompatActivity() {
 
                     val intent = Intent(this@RegisterActivity, FirActivity::class.java)
                     intent.putExtra("uid", uid)
+                    CommonUtils.firdata.put("uid",uid)
                     guid=uid
 
                     // start your next activity

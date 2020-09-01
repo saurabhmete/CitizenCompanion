@@ -52,7 +52,7 @@
         app:layout_constraintVertical_bias="0.325" />
 
     <RadioGroup
-        android:id="@+id/radiogender"
+        android:id="@+id/radiogenderfir"
         android:layout_width="110dp"
         android:layout_height="92dp"
         android:layout_marginBottom="352dp"
@@ -62,7 +62,7 @@
         app:layout_constraintStart_toEndOf="@+id/textView3">
 
         <RadioButton
-            android:id="@+id/maleradio"
+            android:id="@+id/maleradiofir"
             android:layout_width="110dp"
             android:layout_height="33dp"
             android:layout_marginTop="25dp"
@@ -77,7 +77,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <RadioButton
-            android:id="@+id/femaleradio"
+            android:id="@+id/femaleradiofir"
             android:layout_width="110dp"
             android:layout_height="33dp"
             android:layout_marginBottom="460dp"
@@ -87,7 +87,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.588"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/maleradio" />
+            app:layout_constraintTop_toBottomOf="@+id/maleradiofir" />
     </RadioGroup>
 
     <Spinner
@@ -100,7 +100,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toTopOf="@+id/radiogender"
+        app:layout_constraintTop_toTopOf="@+id/radiogenderfir"
         app:layout_constraintVertical_bias="0.63" />
 
     <TextView
@@ -166,7 +166,7 @@
         android:ems="10"
         android:hint="AADHAR Number"
         android:inputType="number"
-        android:maxLength="16"
+        android:maxLength="12"
         app:layout_constraintBottom_toTopOf="@+id/submitbutton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.565"

@@ -20,9 +20,26 @@
     </string-array>
 
     <string-array name="fir_type">
-        <item>Murder</item>
-        <item>Rape</item>
         <item>Theft</item>
+        <item>Violence</item>
+        <item>Damage of Property</item>
+        <item>Cyber Crime</item>
+        <item>Domestic Abuse</item>
+        <item>Rape or Sexual Abuse</item>
+        <item>Robbery</item>
+    </string-array>
+
+    <string-array name="fir_place_type">
+        <item>Public Place</item>
+        <item>Transport Vehicle</item>
+        <item>Home</item>
+        <item>Other</item>
+    </string-array>
+
+
+    <string-array name="yesno">
+        <item>Yes</item>
+        <item>No</item>
     </string-array>
 
     <string name="radio_male">Male</string>
@@ -31,4 +48,6 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

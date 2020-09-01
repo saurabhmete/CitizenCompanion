@@ -20,6 +20,7 @@ import com.google.android.gms.location.*
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.GeoPoint
+import kotlinx.android.synthetic.main.activity_fir.*
 
 
 class FirActivity : AppCompatActivity() {
@@ -30,26 +31,28 @@ class FirActivity : AppCompatActivity() {
     lateinit var location: Location
     var pinCode = " null"
 
-    var firTypeString = "null"
+
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fir)
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        /*CommonUtils.firdata.put("Location",GeoPoint(location.latitude, location.longitude).toString())*/
 
         //for getting the user location
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        getLastLocation()
 
-        val firType: Spinner = findViewById(R.id.type_fir)
-        val submitFir = findViewById<Button>(R.id.submitfir_btn)
+        /* getLastLocation()*/
 
-        submitFir.setOnClickListener(object : View.OnClickListener {
+        /* val firType: Spinner = findViewById(R.id.type_fir)
+        val submitFir = findViewById<Button>(R.id.submitfir_btn)*/
+
+        /*submitFir.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 getPincode()
 
-                val xfullname: TextInputEditText = findViewById(R.id.fullname_fir)
+                *//*val xfullname: TextInputEditText = findViewById(R.id.fullname_fir)
                 val fullname = xfullname.text.toString()
                 val xplace: TextInputEditText = findViewById(R.id.place_fir)
                 val place = xplace.text.toString()
@@ -61,13 +64,13 @@ class FirActivity : AppCompatActivity() {
                 val description = xdescription.text.toString()
                 val xwitness = findViewById<EditText>(R.id.witness_fir)
                 val witness = xwitness.text.toString()
-                val timestamp = Timestamp.now()
+                val timestamp = Timestamp.now()*//*
 
 
                 //getting uid
 
                 val uid: String = intent.getStringExtra("uid")!!
-                var firOb = FIRObject(
+                *//*var firOb = FIRObject(
                     uid,
                     firTypeString,
                     place,
@@ -75,14 +78,14 @@ class FirActivity : AppCompatActivity() {
                     description,
                     witness,
                     GeoPoint(location.latitude, location.longitude)
-                )
-                FirService.registerFir(firOb)
+                )*//*
+             *//*   FirService.registerFir(firOb)*//*
                 Toast.makeText(baseContext, "Filed Successfully", Toast.LENGTH_SHORT).show()
             }
-        })
+        })*/
 
         // type spinner logic starts here
-        ArrayAdapter.createFromResource(
+        /*ArrayAdapter.createFromResource(
             this,
             R.array.fir_type,
             android.R.layout.simple_spinner_item
@@ -92,9 +95,9 @@ class FirActivity : AppCompatActivity() {
             // Apply the adapter to the spinner
             firType.adapter = adapter
             firType.prompt = "Type of incident"
-        }
+        }*/
 
-        firType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        /*firType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 adapterView: AdapterView<*>?,
                 view: View?,
@@ -105,8 +108,25 @@ class FirActivity : AppCompatActivity() {
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {}
-        }
+        }*/
+
+
+/*
+  var fragmentmanager = supportFragmentManager
+
+        fragmentmanager.beginTransaction().remove(firpage1).commit()
+        fragmentmanager.executePendingTransactions();
+        fragmentmanager.beginTransaction().replace(R.id.layout, firpage1).commit()*/
+
+    val fragment = FirFragment()
+        val transaction =  supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, fragment)
+        transaction.commit()
+
+
     }
+
+
 
     private fun getPincode() {
         //reverse geocoding logic starts here
