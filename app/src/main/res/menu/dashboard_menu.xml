@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/dashboardHome"
+        android:icon="@drawable/ic_dashboard_home"
+        android:title="Home" />
+    <item
+        android:id="@+id/dashboardMenu"
+        android:icon="@drawable/ic_dashboard_menu"
+        android:title="Item" />
+    <item
+        android:id="@+id/dashboardSettings"
+        android:icon="@drawable/ic_dashboard_settings"
+        android:title="Settings" />
+</menu>

@@ -1,7 +1,6 @@
 package com.example.citizencompanion
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +8,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import androidx.fragment.app.Fragment
 import com.example.citizencompanion.Utils.CommonUtils
-import kotlinx.android.synthetic.main.fragment_fir.view.*
+import com.google.firebase.auth.FirebaseAuth
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,45 +43,36 @@ class FirFragment : Fragment() {
         // Inflate the layout for this fragment
 
 
-       val v = inflater.inflate(R.layout.fragment_fir,container,false)
+        val v = inflater.inflate(R.layout.fragment_fir, container, false)
         val firnext1 = v.findViewById<Button>(R.id.firnext1)
 
 
-        firnext1.setOnClickListener{
-        val fragment = FirIncidentFragment()
+        firnext1.setOnClickListener {
+            val fragment = FirIncidentFragment()
 
-
-            val firname = v.findViewById<EditText>(R.id.firname).text.toString()
+            val uid = FirebaseAuth.getInstance().currentUser?.uid
+            val name = v.findViewById<EditText>(R.id.firname).text.toString()
             val radioGender = v.findViewById<RadioGroup>(R.id.radiogenderfir)
             val selectedGender = radioGender.checkedRadioButtonId
             val xRadioGender = v.findViewById<RadioButton>(selectedGender)
-            val firgender = xRadioGender.text.toString()
-            val firdate = v.findViewById<EditText>(R.id.DOBfir).text.toString()
-            val firaddress = v.findViewById<EditText>(R.id.postalfir).text.toString()
-            val firphone = v.findViewById<EditText>(R.id.phonenofir).text.toString()
-            val firaadhar = v.findViewById<EditText>(R.id.aadharfir).text.toString()
+            val gender = xRadioGender.text.toString()
+            val address = v.findViewById<EditText>(R.id.postalfir).text.toString()
+            val phone = v.findViewById<EditText>(R.id.phonenofir).text.toString()
+            val aadhar = v.findViewById<EditText>(R.id.aadharfir).text.toString()
 
-            CommonUtils.firdata.put("firname",firname)
-            CommonUtils.firdata.put("firgender",firgender)
-            CommonUtils.firdata.put("firdate",firdate)
-            CommonUtils.firdata.put("firaddress",firaddress)
-            CommonUtils.firdata.put("firphone",firphone)
-            CommonUtils.firdata.put("firaadhar",firaadhar)
-
-
+            CommonUtils.firdata["name"] = name
+            CommonUtils.firdata["gender"] = gender
+            CommonUtils.firdata["address"] = address
+            CommonUtils.firdata["phone"] = phone
+            CommonUtils.firdata["aadhar"] = aadhar
 
             val fragmentManager = requireActivity().supportFragmentManager
-            val fragmenttransaction = fragmentManager.beginTransaction()
-            fragmenttransaction.replace(R.id.container,fragment)
-            fragmenttransaction.addToBackStack(null)
-            fragmenttransaction.commit()
-
-
-
-
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.container, fragment)
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
          }
-
-return v
+        return v
     }
 
     companion object {
@@ -103,11 +94,4 @@ return v
                 }
             }
     }
-
-
-
-
-
-
-
 }

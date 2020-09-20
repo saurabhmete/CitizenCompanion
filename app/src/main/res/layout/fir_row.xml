@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="3dp"
+    app:cardElevation="3dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/firCardTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="FIR Registered"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/firRegisteredOn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/firCardTitle"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:text="Registered on " />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/firRegisteredOnTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/firCardTitle"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="12dp"
+            android:layout_toEndOf="@+id/firRegisteredOn"
+            android:hint="Date and time" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/firStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/firRegisteredOn"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="15dp"
+            android:text="Status" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/firRegisteredOnTime"
+            android:layout_marginStart="90dp"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@+id/firStatus"
+            android:hint="Submitted" />
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.DashboardHome">
+
+    <!--    <androidx.cardview.widget.CardView-->
+    <!--        android:id="@+id/materialCardView"-->
+    <!--        android:layout_width="357dp"-->
+    <!--        android:layout_height="225dp"-->
+    <!--        style="@style/Widget.App.CardView"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.077"-->
+    <!--        app:cardCornerRadius="3dp"-->
+    <!--        app:cardElevation="@dimen/cardview_default_elevation"-->
+    <!--        app:cardUseCompatPadding="true">-->
+
+    <!--        <RelativeLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:padding="16dp">-->
+
+    <!--            <androidx.appcompat.widget.AppCompatTextView-->
+    <!--                android:id="@+id/firRegistered"-->
+    <!--                android:layout_width="163dp"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_alignParentStart="true"-->
+    <!--                android:layout_alignParentTop="true"-->
+    <!--                android:layout_marginStart="20dp"-->
+    <!--                android:layout_marginTop="25dp"-->
+    <!--                android:text="FIR Registered"-->
+    <!--                android:textSize="10pt" />-->
+
+    <!--            <androidx.appcompat.widget.AppCompatTextView-->
+    <!--                android:id="@+id/firRegisteredNumber"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_alignParentTop="true"-->
+    <!--                android:layout_marginStart="31dp"-->
+    <!--                android:layout_marginTop="25dp"-->
+    <!--                android:layout_toEndOf="@+id/firRegistered"-->
+    <!--                android:text="Number"-->
+    <!--                android:textSize="10pt" />-->
+
+    <!--            <androidx.appcompat.widget.AppCompatTextView-->
+    <!--                android:id="@+id/firPending"-->
+    <!--                android:layout_width="163dp"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_below="@+id/firRegistered"-->
+    <!--                android:layout_alignParentStart="true"-->
+    <!--                android:layout_marginStart="20dp"-->
+    <!--                android:layout_marginTop="28dp"-->
+    <!--                android:text="FIR Pending"-->
+    <!--                android:textSize="10pt" />-->
+
+    <!--            <androidx.appcompat.widget.AppCompatTextView-->
+    <!--                android:id="@+id/firPendingNumber"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_below="@+id/firRegisteredNumber"-->
+    <!--                android:layout_marginStart="31dp"-->
+    <!--                android:layout_marginTop="29dp"-->
+    <!--                android:layout_toEndOf="@+id/firPending"-->
+    <!--                android:text="Number"-->
+    <!--                android:textSize="10pt" />-->
+
+    <!--            <androidx.appcompat.widget.AppCompatTextView-->
+    <!--                android:id="@+id/approvedFirs"-->
+    <!--                android:layout_width="163dp"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_below="@+id/firPending"-->
+    <!--                android:layout_alignParentStart="true"-->
+    <!--                android:layout_alignParentBottom="true"-->
+    <!--                android:layout_marginStart="20dp"-->
+    <!--                android:layout_marginTop="28dp"-->
+    <!--                android:layout_marginBottom="20dp"-->
+    <!--                android:text="Approved FIRs"-->
+    <!--                android:textSize="10pt" />-->
+
+    <!--            <androidx.appcompat.widget.AppCompatTextView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_below="@+id/firPendingNumber"-->
+    <!--                android:layout_alignParentBottom="true"-->
+    <!--                android:layout_marginStart="31dp"-->
+    <!--                android:layout_marginTop="29dp"-->
+    <!--                android:layout_marginBottom="20dp"-->
+    <!--                android:layout_toEndOf="@+id/firPending"-->
+    <!--                android:text="Number"-->
+    <!--                android:textSize="10pt" />-->
+
+    <!--        </RelativeLayout>-->
+    <!--    </androidx.cardview.widget.CardView>-->
+
+    <!--    <androidx.recyclerview.widget.RecyclerView-->
+    <!--        android:id="@+id/firList"-->
+    <!--        android:layout_width="357dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="28dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/materialCardView">-->
+
+    <!--    </androidx.recyclerview.widget.RecyclerView>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

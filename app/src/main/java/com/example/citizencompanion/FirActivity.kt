@@ -9,18 +9,10 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
-import android.view.View
-import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.citizencompanion.Utils.CommonUtils
-import com.example.citizencompanion.objects.FIRObject
-import com.example.citizencompanion.services.FirService
 import com.google.android.gms.location.*
-import com.google.android.material.textfield.TextInputEditText
-import com.google.firebase.Timestamp
-import com.google.firebase.firestore.GeoPoint
-import kotlinx.android.synthetic.main.activity_fir.*
 
 
 class FirActivity : AppCompatActivity() {
@@ -29,7 +21,7 @@ class FirActivity : AppCompatActivity() {
     private val PERMISSION_ID = 42
 
     lateinit var location: Location
-    var pinCode = " null"
+    var pinCode = ""
 
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -39,11 +31,10 @@ class FirActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fir)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        /*CommonUtils.firdata.put("Location",GeoPoint(location.latitude, location.longitude).toString())*/
 
         //for getting the user location
-
-        /* getLastLocation()*/
+        getLastLocation()
+        getPincode()
 
         /* val firType: Spinner = findViewById(R.id.type_fir)
         val submitFir = findViewById<Button>(R.id.submitfir_btn)*/
@@ -109,25 +100,16 @@ class FirActivity : AppCompatActivity() {
 
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }*/
-
-
-/*
-  var fragmentmanager = supportFragmentManager
-
-        fragmentmanager.beginTransaction().remove(firpage1).commit()
-        fragmentmanager.executePendingTransactions();
-        fragmentmanager.beginTransaction().replace(R.id.layout, firpage1).commit()*/
-
-    val fragment = FirFragment()
-        val transaction =  supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, fragment)
-        transaction.commit()
-
-
     }
 
+    private fun fragmentBegin() {
+        val fragment = FirFragment()
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, fragment)
+        transaction.commit()
+    }
 
-
+    /**=====================================Location====================================================*/
     private fun getPincode() {
         //reverse geocoding logic starts here
         if (this::location.isInitialized) {
@@ -136,11 +118,15 @@ class FirActivity : AppCompatActivity() {
             pinCode = addresses[0].postalCode
         }
         // reverse geocoding ends here
+
+        CommonUtils.firdata["latitude"] = location.latitude.toString()
+        CommonUtils.firdata["longitude"] = location.latitude.toString()
+        CommonUtils.firdata["pinCode"] = pinCode
+
+        //Fragment code
+        fragmentBegin()
     }
 
-    /**==============================================================================================
-    ====================Location=====================================================================
-    ================================================================================================*/
     //Check if all permissions are available
     private fun checkPermission(): Boolean {
         if (
@@ -228,4 +214,5 @@ class FirActivity : AppCompatActivity() {
             )
         }
     }
+    /**=================================Location Ends=================================================*/
 }
