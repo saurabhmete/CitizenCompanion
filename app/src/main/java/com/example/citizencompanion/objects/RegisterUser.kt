@@ -1,12 +1,18 @@
 package com.example.citizencompanion.objects
 
+import android.location.Location
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.GeoPoint
+
 class RegisterUser(
-    var uid: String,
     val emailId: String,
-    val password: String,
     val name: String,
     val phone: String,
     val gender: String,
-    var userType: String,
-    val aadhar: String
+    val aadhar: String,
+    val dateOfBirth: String,
+    val pincode: Int,
+    val location: GeoPoint,
+    val address: String,
+    val FIRs: List<String>
 )

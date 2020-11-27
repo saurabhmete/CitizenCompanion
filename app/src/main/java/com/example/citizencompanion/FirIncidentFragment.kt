@@ -117,9 +117,6 @@ class FirIncidentFragment : Fragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
 
-
-
-
         firnext2.setOnClickListener{
 
             val firplacename = v.findViewById<EditText>(R.id.incidentplacename).text.toString()
@@ -146,9 +143,6 @@ class FirIncidentFragment : Fragment() {
                 fragmenttransaction.addToBackStack(null)
                 fragmenttransaction.commit()
             }
-
-
-
         }
         firback2.setOnClickListener{
             val fragment = FirFragment()
@@ -157,10 +151,6 @@ class FirIncidentFragment : Fragment() {
             fragmenttransaction.replace(R.id.container,fragment)
             fragmenttransaction.addToBackStack(null)
             fragmenttransaction.commit()
-
-
-
-
         }
 
         return v

@@ -19,12 +19,12 @@ object UserService {
             "Location" to GeoPoint(location.latitude, location.longitude),
             "FIR" to arrayListOf<String>()
         )
-        fireStore.collection(newUser.userType).document(newUser.uid).set(docData)
-            .addOnSuccessListener {
-                Log.d(TAG, "DocumentSnapshot successfully written!")
-            }
-            .addOnFailureListener { e ->
-                Log.d(TAG, "DocumentSnapshot failed!", e)
-            }
+//        fireStore.collection("citizen").document(newUser.uid).set(docData)
+//            .addOnSuccessListener {
+//                Log.d(TAG, "DocumentSnapshot successfully written!")
+//            }
+//            .addOnFailureListener { e ->
+//                Log.d(TAG, "DocumentSnapshot failed!", e)
+//            }
     }
 }

@@ -12,14 +12,16 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.citizencompanion.Utils.CommonUtils
-import com.example.citizencompanion.Utils.FileUtils
 import com.example.citizencompanion.objects.FIRObject
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import java.io.File
 import java.util.*
@@ -31,6 +33,7 @@ private const val ARG_PARAM2 = "param2"
 private val fireStore: FirebaseFirestore = FirebaseFirestore.getInstance()
 private val database: DatabaseReference = Firebase.database.reference
 var imagepath = "null"
+lateinit var filePath: Uri
 
 /**
  * A simple [Fragment] subclass.
@@ -94,12 +97,6 @@ class FirDocumentFragment : Fragment() {
             )
             registerFir(firOb)
 
-            Toast.makeText(
-                requireActivity().applicationContext,
-                "Filed Successfully",
-                Toast.LENGTH_SHORT
-            ).show()
-
             val fragment = FirFragment()
             val fragmentManager = requireActivity().supportFragmentManager
             val fragmentTransaction = fragmentManager.beginTransaction()
@@ -126,7 +123,7 @@ class FirDocumentFragment : Fragment() {
         val riversRef = storageRef.child("firimage/${file.lastPathSegment}")
         val uploadTask = riversRef.putFile(file)
 
-// Register observers to listen for when the download is done or if it fails
+        //Register observers to listen for when the download is done or if it fails
         uploadTask.addOnFailureListener {
             /*Toast.makeText(
                 requireActivity().applicationContext, "Aadhar Upload Failed",
@@ -150,14 +147,15 @@ class FirDocumentFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == 111 && resultCode == AppCompatActivity.RESULT_OK) {
+        if (requestCode == 111 && resultCode == AppCompatActivity.RESULT_OK && data != null) {
             val selectedFile = data?.data
             //The uri with the location of the file
+            filePath = data.data!!
 
             if (selectedFile != null) {
-                val fileutils = FileUtils(requireActivity().applicationContext)
-                val filePath = fileutils.getPath(selectedFile)
-                imagepath = filePath.toString()
+//                val fileutils = FileUtils(requireActivity().applicationContext)
+//                val filePath = fileutils.getPath(selectedFile)
+//                imagepath = filePath.toString()
             }
         }
     }
@@ -165,24 +163,54 @@ class FirDocumentFragment : Fragment() {
     private fun registerFir(firOb: FIRObject) {
         fireStore.collection("FIR")
             .add(firOb)
-            .addOnCompleteListener { task ->
-                if (task.isComplete && task.isSuccessful) {
-//                    database
-//                        .child("FIR")
-//                        .child(CommonUtils.firdata["pinCode"].toString())
-//                        .child("submitted")
-
-
-                } else {
-
-                }
-            }
-            .addOnSuccessListener { doc ->
-                Log.d("DEBUG", "Successful Insertion with doc -> $doc")
+            .addOnSuccessListener { documentReference ->
+                Log.d("INFO", "Successful Insertion with doc -> $documentReference")
+                FirebaseStorage.getInstance().reference
+                    .child("fir/${documentReference.id}.jpg")
+                    .putFile(filePath)
+                    .addOnSuccessListener {
+                            Log.d("INFO", "Successful upload of FIR documents")
+                            database
+                                .child("policeStation")
+                                .child(CommonUtils.firdata["pinCode"].toString())
+                                .child("FIRs")
+                                .child(documentReference.id)
+                                .setValue("registered")
+                                .addOnSuccessListener {
+                                    Log.d("INFO", "Successful FIR document-key insertion in realtime database")
+                                    addFIRToUser(documentReference.id)
+                                }
+                    }
             }
             .addOnFailureListener { e ->
-                Log.d("ERROR", "Error Occured when filing FIR", e)
+                Log.d("ERROR", "Error Occurred when filing FIR", e)
             }
+    }
+
+    private fun addFIRToUser(id: String) {
+        val currentUser = Firebase.auth.currentUser
+        if(currentUser != null) {
+            fireStore.collection("citizen")
+                .document(currentUser.uid)
+                .update("FIRs", FieldValue.arrayUnion(id))
+                .addOnSuccessListener {
+                    Log.d("INFO", "Successful addition of FIR in citizen dataStore")
+
+                    Toast.makeText(
+                        requireActivity().applicationContext,
+                        "Filed Successfully",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    requireActivity().run {
+                        startActivity(Intent(this, DashboardMenu::class.java))
+                        finish()
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d("ERROR", "Failed to add FIR in citizen dataStore $exception")
+                }
+        }
     }
 
     companion object {

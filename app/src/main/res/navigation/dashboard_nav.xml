@@ -8,16 +8,16 @@
     <fragment
         android:id="@+id/dashboardHome"
         android:name="com.example.citizencompanion.fragments.DashboardHome"
-        android:label="fragment_dashboard_home"
+        android:label="Home"
         tools:layout="@layout/fragment_dashboard_home" />
     <fragment
         android:id="@+id/dashboardMenu"
         android:name="com.example.citizencompanion.DashboardMenu"
-        android:label="fragment_dashboard_menu"
+        android:label="Menu"
         tools:layout="@layout/fragment_dashboard_menu" />
     <fragment
         android:id="@+id/dashboardSettings"
         android:name="com.example.citizencompanion.DashboardSettings"
-        android:label="fragment_dashboard_settings"
+        android:label="Settings"
         tools:layout="@layout/fragment_dashboard_settings" />
 </navigation>

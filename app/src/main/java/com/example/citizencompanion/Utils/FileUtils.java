@@ -1,7 +1,5 @@
 package com.example.citizencompanion.Utils;
 
-
-
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;

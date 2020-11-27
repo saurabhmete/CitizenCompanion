@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".RegisterCitizenFragment"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".RegisterCitizenFragment">
+    android:layout_height="match_parent">
 
     <Spinner
         android:id="@+id/policeNameDropDown"
         android:layout_width="316dp"
         android:layout_height="42dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="4dp"
         android:ems="10"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,7 +26,7 @@
         android:id="@+id/emailId"
         android:layout_width="316dp"
         android:layout_height="42dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Email Id"
         android:inputType="textEmailAddress"
@@ -33,11 +39,12 @@
         android:id="@+id/password"
         android:layout_width="316dp"
         android:layout_height="42dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailId" />
 
@@ -45,12 +52,12 @@
         android:id="@+id/confirmPassword"
         android:layout_width="316dp"
         android:layout_height="42dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="Confirm Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password" />
 
@@ -58,12 +65,12 @@
         android:id="@+id/name"
         android:layout_width="316dp"
         android:layout_height="42dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirmPassword" />
 
@@ -71,12 +78,12 @@
         android:id="@+id/phoneNumber"
         android:layout_width="316dp"
         android:layout_height="42dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Phone"
         android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name" />
 
@@ -85,7 +92,7 @@
         android:layout_width="116dp"
         android:layout_height="33dp"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="32dp"
         android:text="Select Gender"
         android:textColor="#000000"
         android:textSize="18sp"
@@ -96,9 +103,9 @@
         android:id="@+id/gender"
         android:layout_width="110dp"
         android:layout_height="92dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.605"
+        app:layout_constraintHorizontal_bias="0.656"
         app:layout_constraintStart_toEndOf="@+id/selectGender"
         app:layout_constraintTop_toBottomOf="@+id/phoneNumber">
 
@@ -107,7 +114,6 @@
             android:layout_width="110dp"
             android:layout_height="33dp"
             android:layout_marginTop="25dp"
-            android:checked="true"
             android:text="@string/radio_male"
             android:textSize="18sp" />
 
@@ -120,4 +126,57 @@
             android:textSize="18sp" />
     </RadioGroup>
 
+    <Spinner
+        android:id="@+id/policeOrganizationSpinner"
+        android:layout_width="316dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        app:layout_constraintBottom_toTopOf="@+id/aadharNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gender"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/aadharNumber"
+        android:layout_width="316dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Aadhar Number"
+        android:inputType="phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/policeOrganizationSpinner" />
+
+    <Button
+        android:id="@+id/chooseAadhar"
+        android:layout_width="315dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="16dp"
+        android:text="Choose Aadhar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.458"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aadharNumber"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/register"
+        android:layout_width="315dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="16dp"
+        android:text="Register"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chooseAadhar"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintVertical_bias="0.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -9,10 +9,13 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.birjuvachhani.locus.Locus
 import com.example.citizencompanion.Utils.CommonUtils
 import com.google.android.gms.location.*
+import kotlinx.android.synthetic.main.activity_register.*
 
 
 class FirActivity : AppCompatActivity() {
@@ -20,7 +23,7 @@ class FirActivity : AppCompatActivity() {
     //PERMISSION_ID is an integer value. It can be of any value
     private val PERMISSION_ID = 42
 
-    lateinit var location: Location
+    lateinit var gLocation: Location
     var pinCode = ""
 
 
@@ -32,9 +35,20 @@ class FirActivity : AppCompatActivity() {
         setContentView(R.layout.activity_fir)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
+        loadingBar.visibility = View.VISIBLE
+
         //for getting the user location
-        getLastLocation()
-        getPincode()
+        Locus.getCurrentLocation(this) { result ->
+            result.location?.let {
+                Log.d("DEBUG", "locus ${result.location!!.latitude}")
+                this.gLocation = result.location!!
+                getPincode()
+                loadingBar.visibility = View.GONE
+            }
+            result.error?.let {
+                Log.d("ERROR", "locus ${result.error}")
+            }
+        }
 
         /* val firType: Spinner = findViewById(R.id.type_fir)
         val submitFir = findViewById<Button>(R.id.submitfir_btn)*/
@@ -112,15 +126,15 @@ class FirActivity : AppCompatActivity() {
     /**=====================================Location====================================================*/
     private fun getPincode() {
         //reverse geocoding logic starts here
-        if (this::location.isInitialized) {
-            Log.d("DEBUG", "location is ${location.latitude} ${location.longitude}")
-            val addresses: List<Address> = CommonUtils.geoDecode(this, location)
+        if (this::gLocation.isInitialized) {
+            Log.d("DEBUG", "location is ${gLocation.latitude} ${gLocation.longitude}")
+            val addresses: List<Address> = CommonUtils.geoDecode(this, gLocation)
             pinCode = addresses[0].postalCode
         }
         // reverse geocoding ends here
 
-        CommonUtils.firdata["latitude"] = location.latitude.toString()
-        CommonUtils.firdata["longitude"] = location.latitude.toString()
+        CommonUtils.firdata["latitude"] = gLocation.latitude.toString()
+        CommonUtils.firdata["longitude"] = gLocation.latitude.toString()
         CommonUtils.firdata["pinCode"] = pinCode
 
         //Fragment code
@@ -186,7 +200,7 @@ class FirActivity : AppCompatActivity() {
                     //for a null last location new location is to be get
                     getNewLocation()
                 } else {
-                    this.location = _location
+                    this.gLocation = _location
                 }
             }
         } else {
@@ -198,7 +212,7 @@ class FirActivity : AppCompatActivity() {
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(p0: LocationResult) {
             val lastLocation = p0.lastLocation
-            location = lastLocation
+            gLocation = lastLocation
         }
     }
 
