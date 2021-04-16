@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "409949259839",
-    "firebase_url": "https://citizencompanion.firebaseio.com",
-    "project_id": "citizencompanion",
-    "storage_bucket": "citizencompanion.appspot.com"
+    "project_number": "215113314751",
+    "firebase_url": "https://citizencompanion-ae452.firebaseio.com",
+    "project_id": "citizencompanion-ae452",
+    "storage_bucket": "citizencompanion-ae452.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:409949259839:android:b5adbedc877e4288ab108a",
+        "mobilesdk_app_id": "1:215113314751:android:7254294b620122c40db10a",
         "android_client_info": {
           "package_name": "com.example.citizencompanion"
         }
       },
       "oauth_client": [
         {
-          "client_id": "409949259839-qonplsf4huef6q7qrigqjn8e5udnihd3.apps.googleusercontent.com",
+          "client_id": "215113314751-tbf0pcertol69d6bb5fr66adbgfe4nvv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCedY28vP9KUp1_vYkI6LYz3t4_UL_96Uw"
+          "current_key": "AIzaSyBAUS8MlomSkxKOQZpHd5--cszlwBDt_ck"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "409949259839-qonplsf4huef6q7qrigqjn8e5udnihd3.apps.googleusercontent.com",
+              "client_id": "215113314751-tbf0pcertol69d6bb5fr66adbgfe4nvv.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

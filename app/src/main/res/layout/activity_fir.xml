@@ -6,20 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".FirActivity">
 
-    <ScrollView
+    <!--<ScrollView
         android:id="@+id/FirScroller"
         android:layout_width="384dp"
         android:layout_height="631dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
 
-            <com.google.android.material.textfield.TextInputLayout
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!--<com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -61,8 +66,8 @@
                 android:id="@+id/type_fir"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
+                android:entries="@array/typeRegister"
                 android:spinnerMode="dialog" />
-<!--                android:prompt="Type of incident"-->
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -112,5 +117,49 @@
         app:layout_constraintBottom_toTopOf="@+id/FirScroller"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />-->
+
+        <!--<fragment
+            android:id="@+id/firpage1"
+            android:name="com.example.citizencompanion.FirFragment"
+            android:layout_width="match_parent"
+            android:layout_height="717dp" />-->
+
+       <!-- <fragment
+            android:id="@+id/firpage2"
+            android:name="com.example.citizencompanion.FirIncidentFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <fragment
+            android:id="@+id/firsuspect"
+            android:name="com.example.citizencompanion.FirSuspectFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <fragment
+            android:id="@+id/firdocument"
+            android:name="com.example.citizencompanion.FirDocumentFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />-->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/container">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/loadingBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
