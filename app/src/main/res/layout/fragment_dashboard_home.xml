@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:text="Registered FIRs in your are"
+                android:text="Registered FIRs in your area"
                 android:textAllCaps="true"
                 android:textColor="@android:color/black"
                 android:textSize="15dp"
@@ -71,6 +71,5 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView"
         app:layout_constraintVertical_bias="0.46"
         tools:listitem="@layout/fir_lists"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -93,19 +93,17 @@ open class MainActivity : AppCompatActivity() {
                     .document(currentUser.uid)
                     .get()
                     .addOnSuccessListener { documentSnapshot ->
-                        if (documentSnapshot == null){
+                        if (documentSnapshot.data != null){
                             // start your next activity
-                            startActivity(Intent(this@MainActivity, DashboardPoliceActivity::class.java))
+                            startActivity(Intent(this@MainActivity, DashboardActivity::class.java))
                             finish()
                         } else {
                             // start your next activity
-                            startActivity(Intent(this@MainActivity, DashboardActivity::class.java))
+                            startActivity(Intent(this@MainActivity, DashboardPoliceActivity::class.java))
                             finish()
                         }
                     }
             }
-            startActivity(Intent(this@MainActivity, DashboardActivity::class.java))
-            finish()
         }
     }
 

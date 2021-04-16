@@ -5,10 +5,10 @@
         android:id="@+id/dashboardPoliceHome"
         android:icon="@drawable/ic_dashboard_home"
         android:title="Home" />
-    <item
-        android:id="@+id/dashboardPoliceMenu"
-        android:icon="@drawable/ic_dashboard_menu"
-        android:title="Item" />
+<!--    <item-->
+<!--        android:id="@+id/dashboardPoliceMenu"-->
+<!--        android:icon="@drawable/ic_dashboard_menu"-->
+<!--        android:title="Item" />-->
     <item
         android:id="@+id/dashboardPoliceSettings"
         android:icon="@drawable/ic_dashboard_settings"

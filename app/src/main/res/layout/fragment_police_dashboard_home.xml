@@ -10,15 +10,19 @@
         android:id="@+id/cardViewPolice"
         android:layout_width="367dp"
         android:layout_height="96dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.047">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_height="match_parent"
             android:background="@drawable/home_card_background">
 
             <TextView
@@ -26,20 +30,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:text="Registered FIRs in your are"
+                android:text="Police Registered FIRs in your area"
                 android:textAllCaps="true"
                 android:textColor="@android:color/black"
                 android:textSize="15dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/registeredFIRNumber"
+                app:layout_constraintEnd_toEndOf="@+id/registeredFIRNumberPolice"
                 app:layout_constraintHorizontal_bias="0.095"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.192" />
 
             <TextView
-                android:id="@+id/registeredFIRNumber"
+                android:id="@+id/registeredFIRNumberPolice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
@@ -58,14 +62,14 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/FIRListViewPolice"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="15dp"
+        android:layout_width="357dp"
+        android:layout_height="479dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardViewPolice"
-        app:layout_constraintVertical_bias="0.283"
+        app:layout_constraintVertical_bias="0.46"
         tools:listitem="@layout/fir_lists_police" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

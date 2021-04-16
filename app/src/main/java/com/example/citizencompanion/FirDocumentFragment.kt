@@ -194,7 +194,7 @@ class FirDocumentFragment : Fragment() {
                 .document(currentUser.uid)
                 .update("FIRs", FieldValue.arrayUnion(id))
                 .addOnSuccessListener {
-                    Log.d("INFO", "Successful addition of FIR in citizen dataStore")
+                    Log.i("addFIRToUser", "Successful addition of FIR in citizen dataStore")
 
                     Toast.makeText(
                         requireActivity().applicationContext,
@@ -208,7 +208,7 @@ class FirDocumentFragment : Fragment() {
                     }
                 }
                 .addOnFailureListener { exception ->
-                    Log.d("ERROR", "Failed to add FIR in citizen dataStore $exception")
+                    Log.e("addFIRToUser", "Failed to add FIR in citizen dataStore $exception")
                 }
         }
     }

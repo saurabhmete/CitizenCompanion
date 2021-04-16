@@ -177,7 +177,7 @@ class   RegisterPoliceFragment : Fragment(R.layout.fragment_register_police) {
                                                         startActivity(
                                                             Intent(
                                                                 this,
-                                                                DashboardActivity::class.java
+                                                                DashboardPoliceActivity::class.java
                                                             )
                                                         )
                                                         finish()

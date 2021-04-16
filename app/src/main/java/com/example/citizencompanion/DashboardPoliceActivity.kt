@@ -27,10 +27,9 @@ class DashboardPoliceActivity : AppCompatActivity() {
         bottomPoliceNavigationView.setOnNavigationItemReselectedListener { menuItem->
             when(menuItem.itemId){
                 R.id.dashboardPoliceHome -> replaceFragment(policeDashboardHome)
-                R.id.dashboardPoliceMenu -> replaceFragment(policeDashboardMenu)
+//                R.id.dashboardPoliceMenu -> replaceFragment(policeDashboardMenu)
                 R.id.dashboardPoliceSettings -> replaceFragment(policeDashboardSettings)
             }
-            true
         }
     }
 

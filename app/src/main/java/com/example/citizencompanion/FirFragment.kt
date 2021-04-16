@@ -60,6 +60,9 @@ class FirFragment : Fragment() {
             val phone = v.findViewById<EditText>(R.id.phonenofir).text.toString()
             val aadhar = v.findViewById<EditText>(R.id.aadharfir).text.toString()
 
+            if(uid != null){
+                CommonUtils.firdata["uid"] = uid
+            }
             CommonUtils.firdata["name"] = name
             CommonUtils.firdata["gender"] = gender
             CommonUtils.firdata["address"] = address

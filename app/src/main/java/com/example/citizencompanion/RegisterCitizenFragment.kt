@@ -83,7 +83,7 @@ class RegisterCitizenFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 auth.createUserWithEmailAndPassword(emailId, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Log.d("INFO", "User is created")
+                            Log.i("INFO", "User is created")
 
                             val currentUser = auth.currentUser
                             if (currentUser != null) {
@@ -128,13 +128,13 @@ class RegisterCitizenFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                                         }
                                     }
                                     .addOnFailureListener {exception ->
-                                        Log.d("ERROR", "Exception occured when inserting in firestore ${exception.localizedMessage}")
+                                        Log.e("ERROR", "Exception occured when inserting in firestore ${exception.localizedMessage}")
                                     }
                             }
                         }
                     }
                     .addOnFailureListener {exception ->
-                        Log.d("ERROR", "Error when creating user ${exception.localizedMessage}")
+                        Log.e("ERROR", "Error when creating user ${exception.localizedMessage}")
                     }
             }
         }

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
@@ -28,6 +29,7 @@ import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.activity_register.*
 import org.jetbrains.anko.doAsync
 import java.io.File
+import java.util.*
 
 open class RegisterActivity : AppCompatActivity() {
 
@@ -115,10 +117,21 @@ open class RegisterActivity : AppCompatActivity() {
         //reverse geocoding logic starts here
         if (this::gLocation.isInitialized) {
             Log.d("DEBUG", "getPincode() | location is ${gLocation.latitude} ${gLocation.longitude}")
-            val addresses: List<Address> = CommonUtils.geoDecode(this, gLocation)
+//            val addresses: List<Address> = CommonUtils.geoDecode(this, gLocation)
+            val addresses: List<Address> = geoDecode(this, gLocation)
             pinCode = addresses[0].postalCode
             Log.d("DEBUG", "getPincode() | pincode is ${pinCode}")
         }
         // reverse geocoding ends here
+    }
+
+
+    fun geoDecode(context: Context, location: Location): List<Address> {
+        val geocode = Geocoder(this, Locale.ENGLISH)
+        return geocode.getFromLocation(
+            location.latitude,
+            location.longitude,
+            1
+        )
     }
 }

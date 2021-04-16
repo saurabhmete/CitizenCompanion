@@ -11,8 +11,8 @@ object CommonUtils {
     fun geoDecode(context: Context, location: Location): List<Address> {
         val geocode = Geocoder(context, Locale.ENGLISH)
         return geocode.getFromLocation(
-            location.latitude.toDouble(),
-            location.longitude.toDouble(),
+            location.latitude,
+            location.longitude,
             1
         )
     }

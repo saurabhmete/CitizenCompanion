@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.citizencompanion.objects.FIRListItem
 import kotlinx.android.synthetic.main.fir_lists.view.*
 
-class FIRListAdapter(private val fIRList: List<FIRListItem>): RecyclerView.Adapter<FIRListAdapter.FIRViewHolder>() {
+class FIRListAdapter(private val fIRList: List<FIRListItem>,
+                     private val listener: OnItemClickListener): RecyclerView.Adapter<FIRListAdapter.FIRViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FIRViewHolder {
         // parent is the view holder this recyclerView will be placed in
@@ -27,7 +28,21 @@ class FIRListAdapter(private val fIRList: List<FIRListItem>): RecyclerView.Adapt
     override fun getItemCount() = fIRList.size
 
     // ViewHolder represents single row of the list
-    class FIRViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    inner class FIRViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val FIRTextView = itemView.firId
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+        override fun onClick(v: View?) {
+            val position: Int = adapterPosition
+            if(position != RecyclerView.NO_POSITION){
+                listener.onItemClick(position)
+            }
+        }
+    }
+
+    interface OnItemClickListener{
+        fun onItemClick(position: Int)
     }
 }
