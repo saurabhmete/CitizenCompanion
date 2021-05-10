@@ -1,5 +1,6 @@
 package com.example.citizencompanion
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,9 @@ import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import com.example.citizencompanion.Utils.CommonUtils
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.fragment_fir.*
+import kotlinx.android.synthetic.main.fragment_fir_incident.*
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,6 +32,11 @@ class FirFragment : Fragment() {
     private var param2: String? = null
     lateinit var mView: View
 
+    private lateinit var dateSetListener: DatePickerDialog.OnDateSetListener
+    private var day = 0
+    private var month = 0
+    private var year = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -41,11 +50,8 @@ class FirFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
-
         val v = inflater.inflate(R.layout.fragment_fir, container, false)
         val firnext1 = v.findViewById<Button>(R.id.firnext1)
-
 
         firnext1.setOnClickListener {
             val fragment = FirIncidentFragment()
@@ -75,6 +81,13 @@ class FirFragment : Fragment() {
             fragmentTransaction.addToBackStack(null)
             fragmentTransaction.commit()
          }
+
+        pickDate(v)
+        dateSetListener = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+            val dateOfIncident = "$dayOfMonth / $month / $year"
+            DOBfir.setText(dateOfIncident)
+        }
+
         return v
     }
 
@@ -96,5 +109,20 @@ class FirFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    private fun getCurrentDate(){
+        val cal = Calendar.getInstance()
+        day = cal.get(Calendar.DAY_OF_MONTH)
+        month = cal.get(Calendar.MONTH)
+        year = cal.get(Calendar.YEAR)
+    }
+
+    private fun pickDate(v: View) {
+        val dobFir = v.findViewById<EditText>(R.id.DOBfir)
+        dobFir.setOnClickListener {
+            getCurrentDate()
+            DatePickerDialog(requireActivity(), dateSetListener, year, month, day).show()
+        }
     }
 }

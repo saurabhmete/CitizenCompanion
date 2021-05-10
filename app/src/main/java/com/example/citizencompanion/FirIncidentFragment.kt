@@ -1,5 +1,6 @@
 package com.example.citizencompanion
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.example.citizencompanion.Utils.CommonUtils
+import kotlinx.android.synthetic.main.fragment_fir_incident.*
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,6 +28,13 @@ class FirIncidentFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var dateSetListener: DatePickerDialog.OnDateSetListener
+    private var day = 0
+    private var month = 0
+    private var year = 0
+
+    private var submitWithoutSuspect = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -40,7 +50,7 @@ class FirIncidentFragment : Fragment() {
         // Inflate the layout for this fragment
         val v= inflater.inflate(R.layout.fragment_fir_incident, container, false)
         val firnext2 = v.findViewById<Button>(R.id.firnext2)
-        val firback2 = v.findViewById<Button>(R.id.firback2)
+        // val firback2 = v.findViewById<Button>(R.id.firback2)
         val firType: Spinner = v.findViewById(R.id.typeincident)
 
         ArrayAdapter.createFromResource(
@@ -113,14 +123,14 @@ class FirIncidentFragment : Fragment() {
             ) {
                 seensuspectString = adapterView?.getItemAtPosition(position).toString().toLowerCase()
             }
-
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
 
         firnext2.setOnClickListener{
 
             val firplacename = v.findViewById<EditText>(R.id.incidentplacename).text.toString()
-            val incidentdate = v.findViewById<EditText>(R.id.incidentdate).text.toString()
+            var incidentdate = v.findViewById<EditText>(R.id.incidentdate).text.toString()
+            incidentdate = incidentdate.replace("\\s".toRegex(), "")
 
             CommonUtils.firdata.put("incidenttype",firTypeString)
             CommonUtils.firdata.put("incidentplacetype",firPlaceString)
@@ -129,6 +139,7 @@ class FirIncidentFragment : Fragment() {
             CommonUtils.firdata.put("seensuspect",seensuspectString)
 
             if(seensuspectString.equals("yes")){
+                submitWithoutSuspect = false
                 val fragment = FirSuspectFragment()
                 val fragmentManager = requireActivity().supportFragmentManager
                 val fragmenttransaction = fragmentManager.beginTransaction()
@@ -136,21 +147,33 @@ class FirIncidentFragment : Fragment() {
                 fragmenttransaction.addToBackStack(null)
                 fragmenttransaction.commit()
             }else{
-                val fragment = FirDocumentFragment()
-                val fragmentManager = requireActivity().supportFragmentManager
-                val fragmenttransaction = fragmentManager.beginTransaction()
-                fragmenttransaction.replace(R.id.container,fragment)
-                fragmenttransaction.addToBackStack(null)
-                fragmenttransaction.commit()
+                if(submitWithoutSuspect) {
+                    val fragment = FirDocumentFragment()
+                    val fragmentManager = requireActivity().supportFragmentManager
+                    val fragmenttransaction = fragmentManager.beginTransaction()
+                    fragmenttransaction.replace(R.id.container, fragment)
+                    fragmenttransaction.addToBackStack(null)
+                    fragmenttransaction.commit()
+                }
+                submitWithoutSuspect = true
+
+                Toast.makeText(activity, "Press Next Again To Submit", Toast.LENGTH_LONG)
+                    .show()
             }
         }
-        firback2.setOnClickListener{
-            val fragment = FirFragment()
-            val fragmentManager = requireActivity().supportFragmentManager
-            val fragmenttransaction = fragmentManager.beginTransaction()
-            fragmenttransaction.replace(R.id.container,fragment)
-            fragmenttransaction.addToBackStack(null)
-            fragmenttransaction.commit()
+//        firback2.setOnClickListener{
+//            val fragment = FirFragment()
+//            val fragmentManager = requireActivity().supportFragmentManager
+//            val fragmenttransaction = fragmentManager.beginTransaction()
+//            fragmenttransaction.replace(R.id.container,fragment)
+//            fragmenttransaction.addToBackStack(null)
+//            fragmenttransaction.commit()
+//        }
+
+        pickDate(v)
+        dateSetListener = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+            val dateOfIncident = "$dayOfMonth / $month / $year"
+            incidentdate.setText(dateOfIncident)
         }
 
         return v
@@ -174,5 +197,20 @@ class FirIncidentFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    private fun getCurrentDate(){
+        val cal = Calendar.getInstance()
+        day = cal.get(Calendar.DAY_OF_MONTH)
+        month = cal.get(Calendar.MONTH)
+        year = cal.get(Calendar.YEAR)
+    }
+
+    private fun pickDate(v: View) {
+        val incidentDate = v.findViewById<EditText>(R.id.incidentdate)
+        incidentDate.setOnClickListener {
+            getCurrentDate()
+            DatePickerDialog(requireActivity(), dateSetListener, year, month, day).show()
+        }
     }
 }

@@ -2,18 +2,20 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
     tools:context=".RegisterCitizenFragment"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent">
-
+    android:layout_marginTop="15dp"
+    android:layout_marginBottom="15dp">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="15dp">
 
     <Spinner
         android:id="@+id/policeNameDropDown"
-        android:layout_width="316dp"
+        android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginTop="4dp"
         android:ems="10"
@@ -24,7 +26,7 @@
 
     <EditText
         android:id="@+id/emailId"
-        android:layout_width="316dp"
+        android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginTop="16dp"
         android:ems="10"
@@ -37,7 +39,7 @@
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="316dp"
+        android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginTop="16dp"
         android:ems="10"
@@ -50,7 +52,7 @@
 
     <EditText
         android:id="@+id/confirmPassword"
-        android:layout_width="316dp"
+        android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginTop="16dp"
         android:ems="10"
@@ -63,20 +65,20 @@
 
     <EditText
         android:id="@+id/name"
-        android:layout_width="316dp"
+        android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirmPassword" />
 
     <EditText
         android:id="@+id/phoneNumber"
-        android:layout_width="316dp"
+        android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginTop="16dp"
         android:ems="10"
@@ -128,7 +130,7 @@
 
     <Spinner
         android:id="@+id/policeOrganizationSpinner"
-        android:layout_width="316dp"
+        android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginTop="16dp"
         android:ems="10"
@@ -140,7 +142,7 @@
 
     <EditText
         android:id="@+id/aadharNumber"
-        android:layout_width="316dp"
+        android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginTop="16dp"
         android:ems="10"
@@ -169,13 +171,13 @@
         android:layout_width="315dp"
         android:layout_height="37dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="25dp"
         android:text="Register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chooseAadhar"
-        android:layout_marginBottom="20dp"
         app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.example.citizencompanion.dashboardPolice
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,7 +11,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.citizencompanion.FIRListAdapter
 import com.example.citizencompanion.R
+import com.example.citizencompanion.Utils.CommonUtils
 import com.example.citizencompanion.objects.FIRListItem
+import com.example.citizencompanion.viewfir.ViewFir
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -48,9 +51,8 @@ class PoliceDashboardHome : Fragment(), FIRListAdapter.OnItemClickListener {
     }
 
     private fun getRegisteredFIRs(_pinCode: Any?) {
-        firebaseDatabase.child("policeStation")
+        firebaseDatabase.child("FIRs")
             .child(_pinCode.toString())
-            .child("FIRs")
             .addListenerForSingleValueEvent(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.value != null) {
@@ -94,25 +96,15 @@ class PoliceDashboardHome : Fragment(), FIRListAdapter.OnItemClickListener {
             .document(firList.firId)
             .get()
             .addOnSuccessListener { task ->
-                if(task.data != null){
-                    val firDialogView = LayoutInflater.from(activity).inflate(R.layout.fir_view_dialog_box, null)
-
-                    firDialogView.incidentTypeValue.text = task.data?.get("incidenttype").toString()
-                    firDialogView.incidentPlaceValue.text = task.data?.get("incidentplacename").toString()
-                    firDialogView.incidentDateValue.text = task.data?.get("incidentdate").toString()
-                    firDialogView.firDateValue.text = task.data?.get("date").toString()
-                    firDialogView.firNameValue.text = task.data?.get("name").toString()
-                    firDialogView.phoneNumberValue.text = task.data?.get("phone").toString()
-
-                    val firDialogBuilder = AlertDialog.Builder(activity)
-                        .setView(firDialogView)
-                        .setTitle("View FIR")
-                    //Show Dialog
-                    val firAlertDialog = firDialogBuilder.show()
-                    firDialogView.closeFIRDialogButton.setOnClickListener{
-                        firAlertDialog.dismiss()
+                    if(task.data != null){
+                        gotoActivity(firList.firId)
                     }
-                }
             }
+    }
+
+    private fun gotoActivity(firId: String) {
+        val intent = Intent(activity, ViewFir::class.java)
+        CommonUtils.firdata["firID"]= firId
+        startActivity(intent)
     }
 }

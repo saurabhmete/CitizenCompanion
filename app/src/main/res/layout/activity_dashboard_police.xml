@@ -6,14 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".DashboardPoliceActivity">
 
-    <FrameLayout
-        android:id="@+id/policeDashboardFragment"
+    <fragment
+        android:id="@+id/policeFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@+id/bottomPoliceNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottomPoliceNavigationView"/>
+        app:navGraph="@navigation/dashboard_police_nav" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomPoliceNavigationView"
@@ -24,7 +27,5 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:menu="@menu/dashboard_police_menu"
         android:background="#AAC3EF" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

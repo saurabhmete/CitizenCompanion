@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.citizencompanion.Utils.CommonUtils
+import com.example.citizencompanion.Utils.LoadingClassCustomLoader
 import com.example.citizencompanion.objects.FIRObject
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
@@ -19,12 +20,10 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
-import java.io.File
 import java.util.*
+import kotlin.collections.HashMap
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
@@ -32,14 +31,13 @@ private const val ARG_PARAM2 = "param2"
 
 private val fireStore: FirebaseFirestore = FirebaseFirestore.getInstance()
 private val database: DatabaseReference = Firebase.database.reference
+private val fireStorage: FirebaseStorage = FirebaseStorage.getInstance()
+
 var imagepath = "null"
 lateinit var filePath: Uri
+lateinit var firDocumentReferenceId: String
+val REGISTER_FIR = true;
 
-/**
- * A simple [Fragment] subclass.
- * Use the [FirDocumentFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FirDocumentFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -59,91 +57,62 @@ class FirDocumentFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.fragment_fir_document, container, false)
+
+        val loading = LoadingClassCustomLoader(requireActivity())
+
+        if(REGISTER_FIR){
+            loading.startLoading("Filing your FIR")
+            createFir(loading)
+        }
+
         val chooseFile = v.findViewById<Button>(R.id.choosefilefir)
-        chooseFile.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(p0: View?) {
-                val intent = Intent()
-                    .setType("*/*")
-                    .setAction(Intent.ACTION_GET_CONTENT)
-                startActivityForResult(Intent.createChooser(intent, "Select a file"), 111)
-            }
-        })
+        chooseFile.setOnClickListener {
+            val intent = Intent()
+                .setType("image/*")
+                .setAction(Intent.ACTION_GET_CONTENT)
+            startActivityForResult(Intent.createChooser(intent, "Select a file"), 111)
+        }
+        val chooseVideoFile = v.findViewById<Button>(R.id.chooseVideoFir)
+        chooseVideoFile.setOnClickListener {
+            val intent = Intent()
+                .setType("video/*")
+                .setAction(Intent.ACTION_GET_CONTENT)
+            startActivityForResult(Intent.createChooser(intent, "Select a video"), 111)
+        }
 
         val submitFir = v.findViewById<Button>(R.id.submitfir)
-        val firback4 = v.findViewById<Button>(R.id.documentback)
 
         val latitude = CommonUtils.firdata["latitude"].toString()
         val longitude = CommonUtils.firdata["longitude"].toString()
 
         submitFir.setOnClickListener {
-            val firOb = FIRObject(
-                CommonUtils.firdata["uid"].toString(),
-                CommonUtils.firdata["name"].toString(),
-                CommonUtils.firdata["gender"].toString(),
-                Timestamp(Date()),
-                CommonUtils.firdata["address"].toString(),
-                CommonUtils.firdata["phone"].toString(),
-                CommonUtils.firdata["aadhar"].toString(),
-                CommonUtils.firdata["incidenttype"].toString(),
-                CommonUtils.firdata["incidentplacetype"].toString(),
-                CommonUtils.firdata["incidentplacename"].toString(),
-                CommonUtils.firdata["incidentdate"].toString(),
-                CommonUtils.firdata["seensuspect"].toString(),
-                CommonUtils.firdata["suspectname"].toString(),
-                CommonUtils.firdata["suspectage"].toString(),
-                CommonUtils.firdata["suspectaddress"].toString(),
-                CommonUtils.firdata["suspectidentify"].toString(),
-                GeoPoint(latitude.toDouble(), longitude.toDouble())
-            )
-            registerFir(firOb)
+            requireActivity().run {
+                startActivity(Intent(this, DashboardMenu::class.java))
+                finish()
+            }
 
-            val fragment = FirFragment()
-            val fragmentManager = requireActivity().supportFragmentManager
-            val fragmentTransaction = fragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.container, fragment)
-            fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.commit()
-
+//            val fragment = FirFragment()
+//            val fragmentManager = requireActivity().supportFragmentManager
+//            val fragmentTransaction = fragmentManager.beginTransaction()
+//            fragmentTransaction.replace(R.id.container, fragment)
+//            fragmentTransaction.addToBackStack(null)
+//            fragmentTransaction.commit()
         }
-        firback4.setOnClickListener{
-            val fragment = FirSuspectFragment()
-            val fragmentManager = requireActivity().supportFragmentManager
-            val fragmentTransaction = fragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.container, fragment)
-            fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.commit()
+
+        val uploadImage = v.findViewById<Button>(R.id.uploadImage)
+        uploadImage.setOnClickListener {
+            loading.startLoading("Uploading")
+            uploadEvidences(loading)
+        }
+
+        val uploadVideo = v.findViewById<Button>(R.id.uploadVideo)
+        uploadVideo.setOnClickListener {
+            loading.startLoading("Uploading")
+            uploadEvidences(loading)
         }
         return v
     }
 
-    private fun uploadimagefir(imagepath: String) {
-        val storage = Firebase.storage
-        val storageRef = storage.reference
-        val file = Uri.fromFile(File(imagepath))
-        val riversRef = storageRef.child("firimage/${file.lastPathSegment}")
-        val uploadTask = riversRef.putFile(file)
-
-        //Register observers to listen for when the download is done or if it fails
-        uploadTask.addOnFailureListener {
-            /*Toast.makeText(
-                requireActivity().applicationContext, "Aadhar Upload Failed",
-                Toast.LENGTH_SHORT
-            ).show()*/
-
-            // Handle unsuccessful uploads
-        }.addOnSuccessListener {
-            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-            // ...
-
-
-            /*Toast.makeText(
-                requireActivity().applicationContext, "Aadhar Success",
-                Toast.LENGTH_LONG
-            ).show()*/
-        }
-
-
-    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -160,52 +129,77 @@ class FirDocumentFragment : Fragment() {
         }
     }
 
-    private fun registerFir(firOb: FIRObject) {
+    // Create Object For FIR
+    private fun createFir(loading: LoadingClassCustomLoader) {
+        val latitude = CommonUtils.firdata["latitude"].toString()
+        val longitude = CommonUtils.firdata["longitude"].toString()
+
+        val locationMap = HashMap<String, String>()
+        locationMap["longitude"] = longitude
+        locationMap["latitude"] = latitude
+
+        val firOb = FIRObject(
+            CommonUtils.firdata["uid"].toString(),
+            CommonUtils.firdata["name"].toString(),
+            CommonUtils.firdata["gender"].toString(),
+            Timestamp(Date()),
+            CommonUtils.firdata["address"].toString(),
+            CommonUtils.firdata["phone"].toString(),
+            CommonUtils.firdata["aadhar"].toString(),
+            CommonUtils.firdata["incidenttype"].toString(),
+            CommonUtils.firdata["incidentplacetype"].toString(),
+            CommonUtils.firdata["incidentplacename"].toString(),
+            CommonUtils.firdata["incidentdate"].toString(),
+            CommonUtils.firdata["seensuspect"].toString(),
+            CommonUtils.firdata["suspectname"].toString(),
+            CommonUtils.firdata["suspectage"].toString(),
+            CommonUtils.firdata["suspectaddress"].toString(),
+            CommonUtils.firdata["suspectidentify"].toString(),
+            locationMap,
+            listOf()
+        )
+
+        registerFir(firOb, loading)
+    }
+
+    private fun registerFir(firOb: FIRObject, loading: LoadingClassCustomLoader) {
         fireStore.collection("FIR")
             .add(firOb)
             .addOnSuccessListener { documentReference ->
-                Log.d("INFO", "Successful Insertion with doc -> $documentReference")
-                FirebaseStorage.getInstance().reference
-                    .child("fir/${documentReference.id}.jpg")
-                    .putFile(filePath)
-                    .addOnSuccessListener {
-                            Log.d("INFO", "Successful upload of FIR documents")
-                            database
-                                .child("policeStation")
-                                .child(CommonUtils.firdata["pinCode"].toString())
-                                .child("FIRs")
-                                .child(documentReference.id)
-                                .setValue("registered")
-                                .addOnSuccessListener {
-                                    Log.d("INFO", "Successful FIR document-key insertion in realtime database")
-                                    addFIRToUser(documentReference.id)
-                                }
-                    }
+                Log.i("INFO", "Successful Insertion with doc -> $documentReference")
+                firDocumentReferenceId = documentReference.id
+                        database
+                            .child("FIRs")
+                            .child(CommonUtils.firdata["pinCode"].toString())
+                            .child(documentReference.id)
+                            .setValue("registered")
+                            .addOnSuccessListener {
+                                Log.d(
+                                    "INFO",
+                                    "Successful FIR document-key insertion in realtime database"
+                                )
+                                addFIRToUser(documentReference.id, loading)
+                            }
             }
             .addOnFailureListener { e ->
                 Log.d("ERROR", "Error Occurred when filing FIR", e)
             }
     }
 
-    private fun addFIRToUser(id: String) {
+    private fun addFIRToUser(id: String, loading: LoadingClassCustomLoader) {
         val currentUser = Firebase.auth.currentUser
-        if(currentUser != null) {
+        if (currentUser != null) {
             fireStore.collection("citizen")
                 .document(currentUser.uid)
                 .update("FIRs", FieldValue.arrayUnion(id))
                 .addOnSuccessListener {
                     Log.i("addFIRToUser", "Successful addition of FIR in citizen dataStore")
-
+                    loading.isDismiss()
                     Toast.makeText(
                         requireActivity().applicationContext,
-                        "Filed Successfully",
+                        "FIR Filed Successfully",
                         Toast.LENGTH_SHORT
                     ).show()
-
-                    requireActivity().run {
-                        startActivity(Intent(this, DashboardMenu::class.java))
-                        finish()
-                    }
                 }
                 .addOnFailureListener { exception ->
                     Log.e("addFIRToUser", "Failed to add FIR in citizen dataStore $exception")
@@ -213,16 +207,41 @@ class FirDocumentFragment : Fragment() {
         }
     }
 
+    private fun uploadEvidences(loading: LoadingClassCustomLoader){
+        val filePathAndName = "fir/${firDocumentReferenceId}/evidence/evidence_${System.currentTimeMillis()}"
+        val uploadEvidencePath =  FirebaseStorage.getInstance()
+            .getReference(filePathAndName)
+            .putFile(filePath)
+
+        uploadEvidencePath.addOnCompleteListener { uploadSnapshot ->
+                if (uploadSnapshot.isSuccessful) {
+                    uploadSnapshot.result.storage.downloadUrl.addOnSuccessListener { taskUri ->
+                        val uuri: Uri = taskUri.normalizeScheme()
+                        val uuriSting = uuri.toString()
+                        addEvidencesToFIR(uuriSting)
+                        loading.isDismiss()
+                    }
+                } else {
+                    loading.isDismiss()
+                    Toast.makeText(requireActivity(), "Error in Uploading", Toast.LENGTH_SHORT)
+                }
+            }
+    }
+
+    private fun addEvidencesToFIR(downloadUri: String) {
+        fireStore.collection("FIR")
+            .document(firDocumentReferenceId)
+            .update("evidenceList", FieldValue.arrayUnion(downloadUri))
+            .addOnSuccessListener {
+                Toast.makeText(
+                    requireActivity(),
+                    "File Uploaded Successfully",
+                    Toast.LENGTH_SHORT
+                )
+            }
+    }
+
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FirDocumentFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             FirDocumentFragment().apply {

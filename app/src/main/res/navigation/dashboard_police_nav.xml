@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dashboard_nav"
+    app:startDestination="@id/dashboardPoliceHome">
+    <fragment
+        android:id="@+id/dashboardPoliceHome"
+        android:name="com.example.citizencompanion.dashboardPolice.PoliceDashboardHome"
+        android:label="Home"
+        tools:layout="@layout/fragment_police_dashboard_home" />
+    <fragment
+        android:id="@+id/dashboardPoliceMenu"
+        android:name="com.example.citizencompanion.dashboardPolice.PoliceDashboardMenu"
+        android:label="Menu"
+        tools:layout="@layout/fragment_police_dashboard_menu" />
+    <fragment
+        android:id="@+id/dashboardPoliceSettings"
+        android:name="com.example.citizencompanion.dashboardPolice.PoliceDashboardSettings"
+        android:label="Settings"
+        tools:layout="@layout/fragment_police_dashboard_settings" />
+</navigation>

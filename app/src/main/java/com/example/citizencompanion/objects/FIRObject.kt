@@ -20,5 +20,6 @@ class FIRObject(
     val suspectage: String,
     val suspectaddress: String,
     val suspectidentify: String,
-    val location: GeoPoint
+    val location: Map<String, String>,
+    val evidenceList: List<String>
 )

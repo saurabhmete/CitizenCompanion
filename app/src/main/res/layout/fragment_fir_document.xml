@@ -9,6 +9,92 @@
     android:layout_margin="10dp">
 
     <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="File a FIR"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Upload Proof documents if any and Confirm"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+    <Button
+        android:id="@+id/choosefilefir"
+        android:layout_width="135dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="44dp"
+        android:text="Choose Images"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.159"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+    <Button
+        android:id="@+id/uploadImage"
+        android:layout_width="135dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="44dp"
+        android:text="Upload"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.632"
+        app:layout_constraintStart_toEndOf="@+id/choosefilefir"
+        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+    <Button
+        android:id="@+id/chooseVideoFir"
+        android:layout_width="135dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="32dp"
+        android:text="Choose Images"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.159"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/choosefilefir" />
+
+    <Button
+        android:id="@+id/uploadVideo"
+        android:layout_width="135dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="32dp"
+        android:text="Upload"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.629"
+        app:layout_constraintStart_toEndOf="@+id/chooseVideoFir"
+        app:layout_constraintTop_toBottomOf="@+id/uploadImage" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:text="Note: False Complaints are subject to presecution under IPC"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chooseVideoFir" />
+
+    <TextView
         android:id="@+id/textView23"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,92 +111,13 @@
         android:id="@+id/submitfir"
         android:layout_width="140dp"
         android:layout_height="57dp"
-        android:layout_marginEnd="40dp"
         android:layout_marginBottom="40dp"
         android:backgroundTint="#5BD889"
-        android:text="Submit"
+        android:text="Finish"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView23"
-        app:layout_constraintVertical_bias="0.992" />
-
-    <Button
-        android:id="@+id/documentback"
-        android:layout_width="140dp"
-        android:layout_height="57dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="40dp"
-        android:backgroundTint="#EF9191"
-        android:text="Back"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView23"
-        app:layout_constraintVertical_bias="0.992" />
-
-    <Button
-        android:id="@+id/choosefilefir"
-        android:layout_width="135dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="40dp"
-        android:text="Choose Images"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/uploadtext2"
-        app:layout_constraintTop_toBottomOf="@+id/textView21" />
-
-    <TextView
-        android:id="@+id/uploadtext2"
-        android:layout_width="wrap_content"
-        android:layout_height="56dp"
-        android:layout_marginTop="40dp"
-        android:gravity="center"
-        android:text="Upload Images"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.15"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView21" />
-
-    <TextView
-        android:id="@+id/textView21"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Upload Proof documents if any and Confirm"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView19" />
-
-    <TextView
-        android:id="@+id/textView19"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:text="File a FIR"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView22"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="Note: False Complaints are subject to presecution under IPC"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.555"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/uploadtext2" />
+        app:layout_constraintVertical_bias="0.938" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

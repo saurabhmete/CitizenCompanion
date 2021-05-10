@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.birjuvachhani.locus.Locus
 import com.example.citizencompanion.Utils.CommonUtils
+import com.example.citizencompanion.Utils.LoadingClassCustomLoader
 import com.example.citizencompanion.objects.RegisterUser
 import com.example.citizencompanion.services.UserService
 import com.google.android.gms.location.*
@@ -40,15 +41,15 @@ open class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        loadingBar.visibility = View.VISIBLE
-
+        val loading = LoadingClassCustomLoader(this)
+        loading.startLoading("Getting Your Location")
         //for getting the user location
         Locus.getCurrentLocation(this) { result ->
             result.location?.let {
                 Log.d("DEBUG", "locus ${result.location!!.latitude}")
                 this.gLocation = result.location!!
                 getPincode()
-                loadingBar.visibility = View.GONE
+                loading.isDismiss()
                 startFragment()
             }
             result.error?.let {

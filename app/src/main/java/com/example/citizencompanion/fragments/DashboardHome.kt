@@ -1,17 +1,19 @@
 package com.example.citizencompanion.fragments
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.citizencompanion.FIRListAdapter
-import com.example.citizencompanion.R
+import com.example.citizencompanion.*
+import com.example.citizencompanion.Utils.CommonUtils
 import com.example.citizencompanion.objects.FIRListItem
+import com.example.citizencompanion.viewfir.ViewFir
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -22,11 +24,6 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fir_view_dialog_box.view.*
 import kotlinx.android.synthetic.main.fragment_dashboard_home.*
 
-/**
- * A simple [Fragment] subclass.
- * Use the [DashboardHome.newInstance] factory method to
- * create an instance of this fragment.
- */
 class   DashboardHome : Fragment(), FIRListAdapter.OnItemClickListener {
 
     val firebaseDatabase = Firebase.database.reference
@@ -44,14 +41,12 @@ class   DashboardHome : Fragment(), FIRListAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         getFIRListForUser()
     }
 
     private fun getRegisteredFIRs(_pinCode: Any?) {
-        firebaseDatabase.child("policeStation")
+        firebaseDatabase.child("FIRs")
             .child(_pinCode.toString())
-            .child("FIRs")
             .addListenerForSingleValueEvent(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.value != null) {
@@ -96,24 +91,14 @@ class   DashboardHome : Fragment(), FIRListAdapter.OnItemClickListener {
             .get()
             .addOnSuccessListener { task ->
                 if(task.data != null){
-                    val firDialogView = LayoutInflater.from(activity).inflate(R.layout.fir_view_dialog_box, null)
-
-                    firDialogView.incidentTypeValue.text = task.data?.get("incidenttype").toString()
-                    firDialogView.incidentPlaceValue.text = task.data?.get("incidentplacename").toString()
-                    firDialogView.incidentDateValue.text = task.data?.get("incidentdate").toString()
-                    firDialogView.firDateValue.text = task.data?.get("date").toString()
-                    firDialogView.firNameValue.text = task.data?.get("name").toString()
-                    firDialogView.phoneNumberValue.text = task.data?.get("phone").toString()
-
-                    val firDialogBuilder = AlertDialog.Builder(activity)
-                        .setView(firDialogView)
-                        .setTitle("View FIR")
-                    //Show Dialog
-                    val firAlertDialog = firDialogBuilder.show()
-                    firDialogView.closeFIRDialogButton.setOnClickListener{
-                        firAlertDialog.dismiss()
-                    }
+                    gotoActivity(firList.firId)
                 }
             }
+    }
+
+    private fun gotoActivity(firId: String) {
+        val intent = Intent(activity, ViewFir::class.java)
+        CommonUtils.firdata["firID"]= firId
+        startActivity(intent)
     }
 }

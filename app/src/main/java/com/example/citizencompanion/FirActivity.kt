@@ -9,14 +9,12 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.birjuvachhani.locus.Locus
 import com.example.citizencompanion.Utils.CommonUtils
+import com.example.citizencompanion.Utils.LoadingClassCustomLoader
 import com.google.android.gms.location.*
-import kotlinx.android.synthetic.main.activity_register.*
-
 
 class FirActivity : AppCompatActivity() {
 
@@ -35,96 +33,32 @@ class FirActivity : AppCompatActivity() {
         setContentView(R.layout.activity_fir)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
-        loadingBar.visibility = View.VISIBLE
+        val loading = LoadingClassCustomLoader(this)
+        loading.startLoading("Getting Your Location")
 
         //for getting the user location
         Locus.getCurrentLocation(this) { result ->
             result.location?.let {
                 Log.d("DEBUG", "locus ${result.location!!.latitude}")
                 this.gLocation = result.location!!
-                getPincode()
-                loadingBar.visibility = View.GONE
+                getPincode(loading)
             }
             result.error?.let {
                 Log.d("ERROR", "locus ${result.error}")
             }
         }
-
-        /* val firType: Spinner = findViewById(R.id.type_fir)
-        val submitFir = findViewById<Button>(R.id.submitfir_btn)*/
-
-        /*submitFir.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(p0: View?) {
-                getPincode()
-
-                *//*val xfullname: TextInputEditText = findViewById(R.id.fullname_fir)
-                val fullname = xfullname.text.toString()
-                val xplace: TextInputEditText = findViewById(R.id.place_fir)
-                val place = xplace.text.toString()
-                val xdate: EditText = findViewById(R.id.date_fir)
-                val date = xdate.text.toString()
-                val xtime: EditText = findViewById(R.id.time_fir)
-                val time = xtime.text.toString()
-                val xdescription = findViewById<EditText>(R.id.description_fir)
-                val description = xdescription.text.toString()
-                val xwitness = findViewById<EditText>(R.id.witness_fir)
-                val witness = xwitness.text.toString()
-                val timestamp = Timestamp.now()*//*
-
-
-                //getting uid
-
-                val uid: String = intent.getStringExtra("uid")!!
-                *//*var firOb = FIRObject(
-                    uid,
-                    firTypeString,
-                    place,
-                    timestamp.toDate(),
-                    description,
-                    witness,
-                    GeoPoint(location.latitude, location.longitude)
-                )*//*
-             *//*   FirService.registerFir(firOb)*//*
-                Toast.makeText(baseContext, "Filed Successfully", Toast.LENGTH_SHORT).show()
-            }
-        })*/
-
-        // type spinner logic starts here
-        /*ArrayAdapter.createFromResource(
-            this,
-            R.array.fir_type,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
-            firType.adapter = adapter
-            firType.prompt = "Type of incident"
-        }*/
-
-        /*firType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                adapterView: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                firTypeString = adapterView?.getItemAtPosition(position).toString().toLowerCase()
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
-        }*/
     }
 
     private fun fragmentBegin() {
         val fragment = FirFragment()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, fragment)
+//        transaction.addToBackStack(null)
         transaction.commit()
     }
 
-    /**=====================================Location====================================================*/
-    private fun getPincode() {
+    /**=====================================Pincode Starts=======================================*/
+    private fun getPincode(loading: LoadingClassCustomLoader) {
         //reverse geocoding logic starts here
         if (this::gLocation.isInitialized) {
             Log.d("DEBUG", "location is ${gLocation.latitude} ${gLocation.longitude}")
@@ -134,12 +68,20 @@ class FirActivity : AppCompatActivity() {
         // reverse geocoding ends here
 
         CommonUtils.firdata["latitude"] = gLocation.latitude.toString()
-        CommonUtils.firdata["longitude"] = gLocation.latitude.toString()
+        CommonUtils.firdata["longitude"] = gLocation.longitude.toString()
         CommonUtils.firdata["pinCode"] = pinCode
+
+        loading.isDismiss()
 
         //Fragment code
         fragmentBegin()
     }
+    /**=====================================Pincode Ends=======================================*/
+
+
+
+    /**========================================Obsolete===========================================*/
+    /**=====================================Location=======================================*/
 
     //Check if all permissions are available
     private fun checkPermission(): Boolean {
