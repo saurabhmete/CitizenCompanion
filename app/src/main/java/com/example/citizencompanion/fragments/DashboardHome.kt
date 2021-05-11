@@ -1,16 +1,15 @@
 package com.example.citizencompanion.fragments
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.citizencompanion.*
+import com.example.citizencompanion.FIRListAdapter
+import com.example.citizencompanion.R
 import com.example.citizencompanion.Utils.CommonUtils
 import com.example.citizencompanion.objects.FIRListItem
 import com.example.citizencompanion.viewfir.ViewFir
@@ -21,10 +20,9 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.fir_view_dialog_box.view.*
 import kotlinx.android.synthetic.main.fragment_dashboard_home.*
 
-class   DashboardHome : Fragment(), FIRListAdapter.OnItemClickListener {
+class DashboardHome : Fragment(), FIRListAdapter.OnItemClickListener {
 
     val firebaseDatabase = Firebase.database.reference
     val firestore = Firebase.firestore
@@ -47,20 +45,21 @@ class   DashboardHome : Fragment(), FIRListAdapter.OnItemClickListener {
     private fun getRegisteredFIRs(_pinCode: Any?) {
         firebaseDatabase.child("FIRs")
             .child(_pinCode.toString())
-            .addListenerForSingleValueEvent(object: ValueEventListener {
+            .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.value != null) {
                         val registeredFIRMap = snapshot.value as Map<*, *>
                         registeredFIRNumber.text = registeredFIRMap.size.toString()
                     }
                 }
+
                 override fun onCancelled(error: DatabaseError) {}
             })
     }
 
     private fun getFIRListForUser() {
         val currentUser = Firebase.auth.currentUser
-        if(currentUser != null){
+        if (currentUser != null) {
             firestore.collection("citizen")
                 .document(currentUser.uid)
                 .get()
@@ -90,7 +89,7 @@ class   DashboardHome : Fragment(), FIRListAdapter.OnItemClickListener {
             .document(firList.firId)
             .get()
             .addOnSuccessListener { task ->
-                if(task.data != null){
+                if (task.data != null) {
                     gotoActivity(firList.firId)
                 }
             }
@@ -98,7 +97,7 @@ class   DashboardHome : Fragment(), FIRListAdapter.OnItemClickListener {
 
     private fun gotoActivity(firId: String) {
         val intent = Intent(activity, ViewFir::class.java)
-        CommonUtils.firdata["firID"]= firId
+        CommonUtils.firdata["firID"] = firId
         startActivity(intent)
     }
 }

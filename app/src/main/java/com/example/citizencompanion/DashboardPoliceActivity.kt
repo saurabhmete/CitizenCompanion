@@ -26,6 +26,7 @@ import com.example.citizencompanion.dashboardPolice.PoliceDashboardHome
 import com.example.citizencompanion.dashboardPolice.PoliceDashboardMenu
 import com.example.citizencompanion.dashboardPolice.PoliceDashboardSettings
 import com.example.citizencompanion.viewfir.ViewFir
+import com.google.android.gms.common.internal.service.Common
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -78,15 +79,32 @@ class DashboardPoliceActivity : AppCompatActivity() {
                 Log.w("TAG", "loadPost:onCancelled", databaseError.toException())
             }
         }
+
+        val sosPostListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                sendSOSNotification()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w("TAG", "loadPost:onCancelled", databaseError.toException())
+            }
+        }
         //for getting the user location
         Locus.getCurrentLocation(this) { result ->
             result.location?.let {
                 Log.d("DEBUG", "locus ${result.location!!.latitude}")
                 this.gLocation = result.location!!
                 getPincode(loading)
+                CommonUtils.firdata["sosPincode"] = pinCode
+
                 realTimeDataBase.child("FIRs")
                     .child(pinCode)
                     .addValueEventListener(postListener)
+
+                realTimeDataBase.child("SOS")
+                    .child(pinCode)
+                    .addValueEventListener(sosPostListener)
             }
             result.error?.let {
                 Log.d("ERROR", "locus ${result.error}")
@@ -132,6 +150,24 @@ class DashboardPoliceActivity : AppCompatActivity() {
             .setSmallIcon(R.drawable.ic_navigation_small)
             .setContentTitle("FIR Alert")
             .setContentText("A new FIR has been filed")
+            .setContentIntent(pendingIntent)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        with(NotificationManagerCompat.from(this)){
+            notify(notificationId, builder.build())
+        }
+    }
+
+    private fun sendSOSNotification(){
+        val intent = Intent(this, PoliceDashboardMenu::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+
+        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_navigation_small)
+            .setContentTitle("SOS Alert")
+            .setContentText("A new SOS alert has been raised")
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 

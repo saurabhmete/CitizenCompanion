@@ -3,7 +3,6 @@ package com.example.citizencompanion.viewfir
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -17,14 +16,11 @@ import com.example.citizencompanion.R
 import com.example.citizencompanion.Utils.CommonUtils
 import com.example.citizencompanion.Utils.LoadingClassCustomLoader
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.google.type.LatLng
 import kotlinx.android.synthetic.main.activity_view_fir.*
-import org.jetbrains.anko.locationManager
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -66,7 +62,7 @@ class ViewFir : AppCompatActivity() {
             }
     }
 
-     fun setNavigationButton(locationMap: Map<String, String>) {
+    fun setNavigationButton(locationMap: Map<String, String>) {
         navButton.setOnClickListener {
             val intent = Intent(
                 Intent.ACTION_VIEW,
@@ -98,43 +94,45 @@ class ViewFir : AppCompatActivity() {
                 )
             }
 
-            var totalDownloads = 0;
-            for (imageUrl in imageUrls) {
-                totalDownloads += 1
-                // Get video reference using URL
-                val storageRef: StorageReference =
-                    FirebaseStorage.getInstance().getReferenceFromUrl(
-                        imageUrl as String
-                    )
-                storageRef.metadata
-                    .addOnSuccessListener { storageMetadata ->
-                        // Get basic metadata
-                        val fileName = storageMetadata.name
-                        val fileType = storageMetadata.contentType?.split('/')?.get(1)
-                        val storageDirectory =
-                            "${Environment.getExternalStoragePublicDirectory("").absolutePath}/CitizenCompanion/${CommonUtils.firdata["firID"].toString()}"
-                        val downloadDirectory = File(storageDirectory)
-                        if(!downloadDirectory.exists()){
-                            if(!downloadDirectory.mkdir()){
-                                downloadDirectory.mkdirs()
+            if (imageUrls.size == 0) {
+                var totalDownloads = 0;
+                for (imageUrl in imageUrls) {
+                    totalDownloads += 1
+                    // Get video reference using URL
+                    val storageRef: StorageReference =
+                        FirebaseStorage.getInstance().getReferenceFromUrl(
+                            imageUrl as String
+                        )
+                    storageRef.metadata
+                        .addOnSuccessListener { storageMetadata ->
+                            // Get basic metadata
+                            val fileName = storageMetadata.name
+                            val fileType = storageMetadata.contentType?.split('/')?.get(1)
+                            val storageDirectory =
+                                "${Environment.getExternalStoragePublicDirectory("").absolutePath}/CitizenCompanion/${CommonUtils.firdata["firID"].toString()}"
+                            val downloadDirectory = File(storageDirectory)
+                            if (!downloadDirectory.exists()) {
+                                if (!downloadDirectory.mkdir()) {
+                                    downloadDirectory.mkdirs()
+                                }
                             }
-                        }
-                        // Download the file
-                        val localFile = File.createTempFile("images", ".$fileType")
-                        storageRef.getFile(localFile).addOnSuccessListener { fileDownload ->
-                            // Local temp file has been created
-                            val path1 = Paths.get(localFile.toURI())
-                            val path2 = Paths.get("${storageDirectory}/$fileName.$fileType")
-                            Files.move(path1, path2)
+                            // Download the file
+                            val localFile = File.createTempFile("images", ".$fileType")
+                            storageRef.getFile(localFile).addOnSuccessListener { fileDownload ->
+                                // Local temp file has been created
+                                val path1 = Paths.get(localFile.toURI())
+                                val path2 = Paths.get("${storageDirectory}/$fileName.$fileType")
+                                Files.move(path1, path2)
 
-                            if (totalDownloads == imageUrls.size){
-                                loading.isDismiss()
+                                if (totalDownloads == imageUrls.size) {
+                                    loading.isDismiss()
+                                }
+                            }.addOnFailureListener { exception ->
+                                Toast.makeText(this, "Download Failed", Toast.LENGTH_SHORT)
+                                Log.e("ViewFIR Download", exception.toString())
                             }
-                        }.addOnFailureListener { exception ->
-                            Toast.makeText(this, "Download Failed", Toast.LENGTH_SHORT)
-                            Log.e("ViewFIR Download", exception.toString())
                         }
-                    }
+                }
             }
         }
     }

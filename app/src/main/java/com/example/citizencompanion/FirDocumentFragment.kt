@@ -90,25 +90,26 @@ class FirDocumentFragment : Fragment() {
                 startActivity(Intent(this, DashboardMenu::class.java))
                 finish()
             }
-
-//            val fragment = FirFragment()
-//            val fragmentManager = requireActivity().supportFragmentManager
-//            val fragmentTransaction = fragmentManager.beginTransaction()
-//            fragmentTransaction.replace(R.id.container, fragment)
-//            fragmentTransaction.addToBackStack(null)
-//            fragmentTransaction.commit()
         }
 
         val uploadImage = v.findViewById<Button>(R.id.uploadImage)
         uploadImage.setOnClickListener {
-            loading.startLoading("Uploading")
-            uploadEvidences(loading)
+            if(::filePath.isInitialized) {
+                loading.startLoading("Uploading")
+                uploadEvidences(loading)
+            } else{
+                Toast.makeText(requireContext(), "Please select image for upload", Toast.LENGTH_SHORT).show()
+            }
         }
 
         val uploadVideo = v.findViewById<Button>(R.id.uploadVideo)
         uploadVideo.setOnClickListener {
-            loading.startLoading("Uploading")
-            uploadEvidences(loading)
+            if(::filePath.isInitialized) {
+                loading.startLoading("Uploading")
+                uploadEvidences(loading)
+            } else{
+                Toast.makeText(requireContext(), "Please select video for upload", Toast.LENGTH_SHORT).show()
+            }
         }
         return v
     }
