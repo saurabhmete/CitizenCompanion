@@ -63,7 +63,7 @@
         android:layout_width="135dp"
         android:layout_height="56dp"
         android:layout_marginTop="32dp"
-        android:text="Choose Images"
+        android:text="Choose Video"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.159"

@@ -11,15 +11,51 @@
         tools:context=".viewfir.ViewFir">
 
         <TextView
-            android:id="@+id/incidentType"
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="FIR Details"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginTop="15dp" />
+
+        <Button
+            android:id="@+id/editFIR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:text="EDIT"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.759"
+            app:layout_constraintStart_toEndOf="@+id/textView7"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginTop="10dp" />
+
+        <Button
+            android:id="@+id/updateFIR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="UPDATE"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.759"
+            app:layout_constraintStart_toEndOf="@+id/textView7"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginTop="10dp" />
+
+        <TextView
+            android:id="@+id/incidentType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="Incident Type"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.061"
+            app:layout_constraintHorizontal_bias="0.048"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
         <EditText
             android:id="@+id/incidentTypeValue"
@@ -180,29 +216,77 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phoneNumber" />
 
-<!--        <ImageButton-->
-<!--            android:id="@+id/navButton"-->
-<!--            android:layout_width="80dp"-->
-<!--            android:layout_height="80dp"-->
-<!--            android:layout_marginVertical="20dp"-->
-<!--            android:background="@drawable/nav_btn_background"-->
-<!--            android:src="@drawable/ic_navigation"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintHorizontal_bias="0.141"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/phoneNumberValue" />-->
+        <TextView
+            android:id="@+id/suspectName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Suspect Name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.071"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phoneNumberValue" />
 
-        <!--        <ImageButton-->
-<!--            android:id="@+id/downladbleContent"-->
-<!--            android:layout_width="80dp"-->
-<!--            android:layout_height="80dp"-->
-<!--            android:layout_marginVertical="20dp"-->
-<!--            android:background="@drawable/nav_btn_background"-->
-<!--            android:src="@drawable/ic_cloud_download"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintHorizontal_bias="0.689"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/navButton"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/phoneNumberValue" />-->
+        <EditText
+            android:id="@+id/suspectNameValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="Suspect name"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/suspectName" />
+
+        <TextView
+            android:id="@+id/suspectAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Suspect Age"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.071"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/suspectNameValue" />
+
+        <EditText
+            android:id="@+id/suspectAgeValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="Suspect Age"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/suspectAge" />
+
+        <TextView
+            android:id="@+id/suspectAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Suspect Address"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.071"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/suspectAgeValue" />
+
+        <EditText
+            android:id="@+id/suspectAddressValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="Suspect Address"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/suspectAddress" />
 
         <Button
             android:id="@+id/navButton"
@@ -216,9 +300,10 @@
             android:text="Navigate"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.069"
+            app:layout_constraintHorizontal_bias="0.066"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/phoneNumberValue" />
+            app:layout_constraintTop_toBottomOf="@+id/suspectAddressValue"
+            app:layout_constraintVertical_bias="0.132" />
 
         <Button
             android:id="@+id/downladbleContent"
@@ -232,9 +317,60 @@
             android:text="Downloads"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.866"
+            app:layout_constraintHorizontal_bias="0.834"
             app:layout_constraintStart_toEndOf="@+id/navButton"
-            app:layout_constraintTop_toBottomOf="@+id/phoneNumberValue" />
+            app:layout_constraintTop_toBottomOf="@+id/suspectAddressValue"
+            app:layout_constraintVertical_bias="0.142" />
+
+        <Button
+            android:id="@+id/chooseImageUpdate"
+            android:layout_width="135dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="40dp"
+            android:text="Choose Images"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.083"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/navButton" />
+
+        <Button
+            android:id="@+id/uploadImageUpdate"
+            android:layout_width="135dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="36dp"
+            android:text="Upload"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.83"
+            app:layout_constraintStart_toEndOf="@+id/chooseImageUpdate"
+            app:layout_constraintTop_toBottomOf="@+id/downladbleContent" />
+
+        <Button
+            android:id="@+id/chooseVideoUpdate"
+            android:layout_width="135dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="44dp"
+            android:text="Choose Video"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.09"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chooseImageUpdate" />
+
+        <Button
+            android:id="@+id/uploadVideoUpdate"
+            android:layout_width="135dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="48dp"
+            android:text="Upload"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.862"
+            app:layout_constraintStart_toEndOf="@+id/chooseVideoUpdate"
+            app:layout_constraintTop_toBottomOf="@+id/uploadImageUpdate" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

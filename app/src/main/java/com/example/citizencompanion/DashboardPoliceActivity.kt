@@ -15,6 +15,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -46,6 +47,9 @@ class DashboardPoliceActivity : AppCompatActivity() {
     private val CHANNEL_ID = "channel_id_example_01"
     private val notificationId = 101
 
+    private var sendFIRNotification = false
+    private var sendSOSNotification = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard_police)
@@ -71,7 +75,10 @@ class DashboardPoliceActivity : AppCompatActivity() {
                 for(data in dataSnapshot.children){
                     CommonUtils.firdata["firID"] = data.key.toString()
                 }
-                sendNotification()
+                if(sendFIRNotification) {
+                    sendNotification()
+                }
+                sendFIRNotification = true
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -82,7 +89,10 @@ class DashboardPoliceActivity : AppCompatActivity() {
 
         val sosPostListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                sendSOSNotification()
+                if(sendSOSNotification){
+                    sendSOSNotification()
+                }
+                sendSOSNotification = true
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -159,10 +169,11 @@ class DashboardPoliceActivity : AppCompatActivity() {
     }
 
     private fun sendSOSNotification(){
-        val intent = Intent(this, PoliceDashboardMenu::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+        val pendingIntent = NavDeepLinkBuilder(this)
+            .setComponentName(DashboardPoliceActivity::class.java)
+            .setGraph(R.navigation.dashboard_police_nav)
+            .setDestination(R.id.dashboardPoliceMenu)
+            .createPendingIntent()
 
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_navigation_small)

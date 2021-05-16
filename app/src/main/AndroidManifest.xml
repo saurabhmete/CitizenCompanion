@@ -12,11 +12,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:requestLegacyExternalStorage="true">
-        <activity android:name=".viewfir.ViewFir"></activity>
+        android:theme="@style/AppTheme">
+        <activity android:name=".EmergencyContacts"></activity>
+        <activity android:name=".viewfir.ViewFir" />
         <activity android:name=".DashboardPoliceActivity" />
         <activity
             android:name=".SplashActivity"
